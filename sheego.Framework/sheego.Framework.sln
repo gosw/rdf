@@ -1,0 +1,136 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{E360D52F-0F47-4552-9383-712C0D90F77D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{2D50B31D-B1DC-45F4-96F9-FD3BDAD3A273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Presentation\Web\Web.csproj", "{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Locator", "Locator", "{23C745C9-8B6F-4436-8887-BE12D444E1C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocatorShared", "Locator\LocatorShared\LocatorShared.csproj", "{E94F1014-C1A1-4029-B95F-129D3F56C0A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainImpl", "Domain\DomainImpl\DomainImpl.csproj", "{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainShared", "Domain\DomainShared\DomainShared.csproj", "{74127DAF-02C2-42B8-8654-A6CF8702C7F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocatorInternal", "Locator\LocatorInternal\LocatorInternal.csproj", "{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainTests", "Domain\DomainTests\DomainTests.csproj", "{070D9B62-5080-4B9C-8A0B-9AD5AC556E22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataImpl", "Data\DataImpl\DataImpl.csproj", "{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataShared", "Data\DataShared\DataShared.csproj", "{5851051F-40C4-4260-B913-97868D015CED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTests", "Data\DataTests\DataTests.csproj", "{0B160BB1-0DEF-46F4-8117-2DC24C4E727E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{75E9619F-8342-47CA-B672-EA4CF9FE8466}"
+	ProjectSection(SolutionItems) = preProject
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E94F1014-C1A1-4029-B95F-129D3F56C0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E94F1014-C1A1-4029-B95F-129D3F56C0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E94F1014-C1A1-4029-B95F-129D3F56C0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E94F1014-C1A1-4029-B95F-129D3F56C0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74127DAF-02C2-42B8-8654-A6CF8702C7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74127DAF-02C2-42B8-8654-A6CF8702C7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74127DAF-02C2-42B8-8654-A6CF8702C7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74127DAF-02C2-42B8-8654-A6CF8702C7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070D9B62-5080-4B9C-8A0B-9AD5AC556E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070D9B62-5080-4B9C-8A0B-9AD5AC556E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070D9B62-5080-4B9C-8A0B-9AD5AC556E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070D9B62-5080-4B9C-8A0B-9AD5AC556E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5851051F-40C4-4260-B913-97868D015CED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5851051F-40C4-4260-B913-97868D015CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5851051F-40C4-4260-B913-97868D015CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5851051F-40C4-4260-B913-97868D015CED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D49E164B-F7E9-4FDB-A4C2-98C9DD29958B} = {2D50B31D-B1DC-45F4-96F9-FD3BDAD3A273}
+		{E94F1014-C1A1-4029-B95F-129D3F56C0A9} = {23C745C9-8B6F-4436-8887-BE12D444E1C0}
+		{32AE25F2-1D68-4A95-94D4-6CAF8096E0E6} = {E360D52F-0F47-4552-9383-712C0D90F77D}
+		{74127DAF-02C2-42B8-8654-A6CF8702C7F1} = {E360D52F-0F47-4552-9383-712C0D90F77D}
+		{FC543F7A-E7D3-49F8-9AB7-8F46A4A22B1B} = {23C745C9-8B6F-4436-8887-BE12D444E1C0}
+		{070D9B62-5080-4B9C-8A0B-9AD5AC556E22} = {E360D52F-0F47-4552-9383-712C0D90F77D}
+		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
+		{5851051F-40C4-4260-B913-97868D015CED} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
+		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs41
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Presentation\\Web\\Web.csproj
+		SccProjectTopLevelParentUniqueName1 = sheego.Framework.sln
+		SccProjectName1 = Presentation/Web
+		SccLocalPath1 = Presentation\\Web
+		SccProjectUniqueName2 = Locator\\LocatorShared\\LocatorShared.csproj
+		SccProjectTopLevelParentUniqueName2 = sheego.Framework.sln
+		SccProjectName2 = Locator/LocatorShared
+		SccLocalPath2 = Locator\\LocatorShared
+		SccProjectUniqueName3 = Domain\\DomainImpl\\DomainImpl.csproj
+		SccProjectTopLevelParentUniqueName3 = sheego.Framework.sln
+		SccProjectName3 = Domain/DomainImpl
+		SccLocalPath3 = Domain\\DomainImpl
+		SccProjectUniqueName4 = Domain\\DomainShared\\DomainShared.csproj
+		SccProjectTopLevelParentUniqueName4 = sheego.Framework.sln
+		SccProjectName4 = Domain/DomainShared
+		SccLocalPath4 = Domain\\DomainShared
+		SccProjectUniqueName5 = Locator\\LocatorInternal\\LocatorInternal.csproj
+		SccProjectTopLevelParentUniqueName5 = sheego.Framework.sln
+		SccProjectName5 = Locator/LocatorInternal
+		SccLocalPath5 = Locator\\LocatorInternal
+		SccProjectUniqueName6 = Domain\\DomainTests\\DomainTests.csproj
+		SccProjectTopLevelParentUniqueName6 = sheego.Framework.sln
+		SccProjectName6 = Domain/DomainTests
+		SccLocalPath6 = Domain\\DomainTests
+		SccProjectUniqueName7 = Data\\DataImpl\\DataImpl.csproj
+		SccProjectTopLevelParentUniqueName7 = sheego.Framework.sln
+		SccProjectName7 = Data/DataImpl
+		SccLocalPath7 = Data\\DataImpl
+		SccProjectUniqueName8 = Data\\DataShared\\DataShared.csproj
+		SccProjectTopLevelParentUniqueName8 = sheego.Framework.sln
+		SccProjectName8 = Data/DataShared
+		SccLocalPath8 = Data\\DataShared
+		SccProjectUniqueName9 = Data\\DataTests\\DataTests.csproj
+		SccProjectTopLevelParentUniqueName9 = sheego.Framework.sln
+		SccProjectName9 = Data/DataTests
+		SccLocalPath9 = Data\\DataTests
+	EndGlobalSection
+EndGlobal
