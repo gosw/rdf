@@ -1,0 +1,69 @@
+﻿@model sheego.Framework.Presentation.Web.Models.Deployment
+
+@{
+    ViewBag.Title = "Delete deployment";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    <h4>@ViewBag.Message</h4>
+
+    <!-- Name -->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-4">
+            @Html.DisplayFor(model => model.Name, new { @class = "form-control input-md" })
+            @Html.HiddenFor(model => model.Name)
+        </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-4">
+            @Html.DisplayFor(model => model.Description, new { @class = "form-control input-md" })
+        </div>
+    </div>
+
+    <!-- Due Date-->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.DueDate, new { @class = "col-md-2 control-label", @for = "date" })
+        <div class="col-md-4">
+            @Html.DisplayFor(model => model.DueDate) <!-- ToDo: Change text to something generic -->
+        </div>
+    </div>
+
+    <hr />
+    <p>
+        <h4>Deployment environment</h4>
+        <div class="form-group row">
+            <div class="col-md-8">
+                @*Environments drop down list*@
+                @Html.DisplayFor(model => model.Environment)
+            </div>
+        </div>
+    </p>
+
+    <hr />
+    <p>
+        <h4>Release version</h4>
+        <div class="form-group row">
+            <div class="col-md-8">
+                @*Releases drop down list*@
+                @Html.DisplayFor(model => model.ReleaseVersion)
+            </div>
+        </div>
+    </p>
+
+    <!-- Buttons -->
+    <div class="form-group row">
+        <div class="col-md-2">
+            <button name="action" value="delete" class="btn btn-primary">Delete this deployment</button>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

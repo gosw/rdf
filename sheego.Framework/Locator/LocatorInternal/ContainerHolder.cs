@@ -34,6 +34,11 @@ namespace sheego.Framework.Locator.Internal
             return new LocatedObject<T>(Container.Resolve<T>());
         }
 
+        public static object Resolve(Type type)
+        {
+            return Container.Resolve(type);
+        }
+
         public static void Register<T1>(T1 instance, bool isDefault = false) where T1 : class
         {
             if (isDefault)
