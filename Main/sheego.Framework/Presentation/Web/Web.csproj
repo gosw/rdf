@@ -139,11 +139,21 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Authorization\FrameworkAuthorizationAttribute.cs" />
+    <Compile Include="Controllers\DeploymentController.cs" />
+    <Compile Include="Controllers\ReleaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeploymentStepState.cs" />
+    <Compile Include="Models\Deployment.cs" />
+    <Compile Include="Models\DeploymentStep.cs" />
+    <Compile Include="Models\Release.cs" />
+    <Compile Include="Models\ReleaseCombined.cs" />
+    <Compile Include="Models\ReleaseUnit.cs" />
+    <Compile Include="Models\RunDeployment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Converter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -166,7 +176,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -177,13 +189,20 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Release\Unauthorized.cshtml" />
+    <Content Include="Views\Release\Index.cshtml" />
+    <Content Include="Views\Deployment\Index.cshtml" />
+    <Content Include="Views\Release\Create.cshtml" />
+    <Content Include="Views\Release\Edit.cshtml" />
+    <Content Include="Views\Release\Delete.cshtml" />
+    <Content Include="Views\Deployment\Unauthorized.cshtml" />
+    <Content Include="Views\Deployment\Create.cshtml" />
+    <Content Include="Views\Deployment\Edit.cshtml" />
+    <Content Include="Views\Deployment\Delete.cshtml" />
+    <Content Include="Views\Deployment\Execute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -192,6 +211,28 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\DataImpl\DataImpl.csproj">
+      <Project>{5c2fcd0a-1bbb-4190-9f49-581a428c5fa6}</Project>
+      <Name>DataImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\DataShared\DataShared.csproj">
+      <Project>{5851051f-40c4-4260-b913-97868d015ced}</Project>
+      <Name>DataShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\DomainImpl\DomainImpl.csproj">
+      <Project>{32ae25f2-1d68-4a95-94d4-6caf8096e0e6}</Project>
+      <Name>DomainImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\DomainShared\DomainShared.csproj">
+      <Project>{74127daf-02c2-42b8-8654-a6cf8702c7f1}</Project>
+      <Name>DomainShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Locator\LocatorShared\LocatorShared.csproj">
+      <Project>{E94F1014-C1A1-4029-B95F-129D3F56C0A9}</Project>
+      <Name>LocatorShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

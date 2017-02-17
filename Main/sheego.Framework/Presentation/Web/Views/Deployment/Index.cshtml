@@ -1,0 +1,65 @@
+﻿@model IEnumerable<sheego.Framework.Presentation.Web.Models.Deployment>
+
+@{
+    ViewBag.Title = "Deployments - Home Page";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseVersion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Stakeholders)*@ <!--ToDo: to complete later-->
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ReleaseVersion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Stakeholders)*@
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { name = item.Name }) |
+                    @Html.ActionLink("Delete", "Delete", new { name = item.Name }) |
+                    @Html.ActionLink("Execute", "Execute", new { name = item.Name })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@using (Html.BeginForm("Create", "Deployment", FormMethod.Get))
+{
+    <p>
+        @Html.TextBox("Name")
+        <button name="action" value="addnewdeployment" class="btn btn-primary">Add new deployment</button>
+    </p>
+}

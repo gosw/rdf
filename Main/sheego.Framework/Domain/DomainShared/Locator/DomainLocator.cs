@@ -1,0 +1,38 @@
+﻿using sheego.Framework.Locator.Internal;
+using sheego.Framework.Locator.Shared;
+
+namespace sheego.Framework.Domain.Shared.Locator
+{
+    public class DomainLocator
+    {
+        public static ILocatedObject<IAuthorizationService> GetAuthorizationService()
+        {
+            return ContainerHolder.Resolve<IAuthorizationService>();
+        }
+
+        public static ILocatedObject<IRelease> GetRelease()
+        {
+            return ContainerHolder.Resolve<IRelease>();
+        }
+
+        public static ILocatedObject<IReleaseUnit> GetReleaseUnit()
+        {
+            return ContainerHolder.Resolve<IReleaseUnit>();
+        }
+
+        public static ILocatedObject<IRepositoryService> GetRepositoryService()
+        {
+            return ContainerHolder.Resolve<IRepositoryService>();
+        }
+
+        public static ILocatedObject<IDeployment> GetDeployment()
+        {
+            return ContainerHolder.Resolve<IDeployment>();
+        }
+
+        public static ILocatedObject<IDeploymentStep> GetDeploymentStep()
+        {
+            return ContainerHolder.Resolve<IDeploymentStep>();
+        }
+    }
+}

@@ -48,7 +48,24 @@
     <Compile Include="..\..\SolutionItems\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="IAuthorizationService.cs" />
+    <Compile Include="IDeployment.cs" />
+    <Compile Include="IDeploymentStep.cs" />
+    <Compile Include="IRelease.cs" />
+    <Compile Include="IReleaseUnit.cs" />
+    <Compile Include="Locator\DomainLocator.cs" />
+    <Compile Include="IRepositoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Locator\LocatorInternal\LocatorInternal.csproj">
+      <Project>{fc543f7a-e7d3-49f8-9ab7-8f46a4a22b1b}</Project>
+      <Name>LocatorInternal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Locator\LocatorShared\LocatorShared.csproj">
+      <Project>{e94f1014-c1a1-4029-b95f-129d3f56c0a9}</Project>
+      <Name>LocatorShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
