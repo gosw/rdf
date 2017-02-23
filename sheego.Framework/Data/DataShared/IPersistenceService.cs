@@ -12,5 +12,6 @@ namespace sheego.Framework.Data.Shared
         T Read<T>(string id);
         void Delete<T>(string id, T someObject);
         IEnumerable<string> List<T>();
+        IEnumerable<T> List<T>(string filter);
     }
 }

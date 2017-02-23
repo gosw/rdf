@@ -69,6 +69,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\DomainShared\DomainShared.csproj">
+      <Project>{74127DAF-02C2-42B8-8654-A6CF8702C7F1}</Project>
+      <Name>DomainShared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Locator\LocatorShared\LocatorShared.csproj">
       <Project>{e94f1014-c1a1-4029-b95f-129d3f56c0a9}</Project>
       <Name>LocatorShared</Name>
