@@ -9,6 +9,7 @@ namespace sheego.Framework.Presentation.Web.Util
 {
     public class Converter
     {
+      
         public IRelease Convert(Release release)
         {
             using (var convertedRelease = DomainLocator.GetRelease())

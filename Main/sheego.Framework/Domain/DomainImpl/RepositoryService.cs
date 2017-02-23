@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using sheego.Framework.Domain.Shared;
 using sheego.Framework.Domain.Shared.Locator;
 using sheego.Framework.Data.Shared.Locator;
+using System.Linq;
 
 namespace sheego.Framework.Domain.Impl
 {
@@ -21,6 +22,14 @@ namespace sheego.Framework.Domain.Impl
             using (var service = DataLocator.GetPersistenceService())
             {
                 service.Object.Create(deployment.Name, deployment); 
+            }
+        }
+
+        public void CreateDeploymentStep(string deploymentName, IDeploymentStep deploymentStep)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                service.Object.Create(deploymentName + " Step" + deploymentStep.Id, deploymentStep);
             }
         }
 
@@ -89,6 +98,28 @@ namespace sheego.Framework.Domain.Impl
                 }
             }
             return list;
+        }
+
+        public IEnumerable<IDeploymentStep> ReadDeploymentSteps (string deploymentName)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                var list = service.Object.List<IDeploymentStep>(deploymentName).ToList();
+                //Activate next Step
+                //ToDo: create separate service for StepState control
+                for(var i = 0;i < list.Count;i++)
+                {
+                    if (list[i].StepState == DeploymentStepState.Active)
+                        break;
+
+                    if (list[i].StepState == DeploymentStepState.Init)
+                    {
+                        list[i].StepState = DeploymentStepState.Active;
+                        break;
+                    }
+                }
+                return list;
+            }
         }
     }
 }

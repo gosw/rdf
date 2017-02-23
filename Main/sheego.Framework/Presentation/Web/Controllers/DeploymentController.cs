@@ -1,8 +1,10 @@
 ﻿using sheego.Framework.Data.Shared.Locator;
 using sheego.Framework.Domain.Shared.Locator;
+using BO = sheego.Framework.Domain.Shared;
 using sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Util;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace sheego.Framework.Presentation.Web.Controllers
@@ -215,32 +217,12 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 var deploymentBO = service.Object.ReadDeployment(name);
                 var converter = new Converter();
                 runDeployment.Deployment = converter.Convert(deploymentBO);
-                //runDeployment.DeploymentSteps = converter.Convert(deploymentBO.Steps);
 
-                //Mock
-                runDeployment.DeploymentSteps = new List<DeploymentStep>()
+                var deploymentSteps = service.Object.ReadDeploymentSteps(name);
+                foreach(var deploymentStep in deploymentSteps)
                 {
-                    new DeploymentStep() {
-                        Id = "1",
-                        Description = "Passivate the environment",
-                        StepState = DeploymentStepState.Successful
-                    },
-                    new DeploymentStep() {
-                        Id = "2",
-                        Description = "Install system A",
-                        StepState = DeploymentStepState.Active
-                    },
-                    new DeploymentStep() {
-                        Id = "3",
-                        Description = "Install system B",
-                        StepState = DeploymentStepState.Active
-                    },
-                    new DeploymentStep() {
-                        Id = "4",
-                        Description = "Passivate the environment",
-                        StepState = DeploymentStepState.Init
-                    }
-                };
+                    runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                }
             }
 
             if (runDeployment == null)
@@ -260,27 +242,29 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 return View();
             }
 
-            //For Deployment Name change the status of Step with stepId and matching stepAction
+            //For current Deployment Name change the status of Step with stepId and matching stepAction
             using (var service = DomainLocator.GetRepositoryService())
             {
-                var deploymentBO = service.Object.ReadDeployment(name);
-
-
+                //ToDo: Get Deployment to change its Status when Action is executed
+                var deploymentSteps = service.Object.ReadDeploymentSteps(name);
+                var converter = new Converter();
                 switch (stepAction)
                 {
                     case "complete":
-                        //deploymentBO.Steps.Where(s => s.id == stepId).Single().State = Successfull;
+                        deploymentSteps.Single(s => s.Id == stepId).StepState = BO.DeploymentStepState.Successful;
+                        service.Object.CreateDeploymentStep(name, deploymentSteps.Single(s => s.Id == stepId));
                         break;
 
                     case "skip":
-
+                        deploymentSteps.Single(s => s.Id == stepId).StepState = BO.DeploymentStepState.Skipped;
+                        service.Object.CreateDeploymentStep(name, deploymentSteps.Single(s => s.Id == stepId));
                         break;
 
                     case "failed":
-
+                        deploymentSteps.Single(s => s.Id == stepId).StepState = BO.DeploymentStepState.Failed;
+                        service.Object.CreateDeploymentStep(name, deploymentSteps.Single(s => s.Id == stepId));
                         break;
                 }
-                service.Object.CreateDeployment(deploymentBO);
             }
                 return RedirectToAction("Execute", new { name = name });
         }

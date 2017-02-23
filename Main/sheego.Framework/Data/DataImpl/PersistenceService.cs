@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using sheego.Framework.Data.Shared;
+using sheego.Framework.Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,6 +59,20 @@ namespace sheego.Framework.Data.Impl
                 idList.Add(Path.GetFileNameWithoutExtension(id));
             }
             return idList;
+        }
+
+        public IEnumerable<T> List<T>(string filter)
+        {
+            var objList = new List<T>();
+            IConfigurationService configurationService = new ConfigurationService();
+            //var path = configurationService.GetFilesPath(typeof(T).Name);
+            string[] list = Directory.GetFiles((string)configurationService.GetFilesPath(typeof(T).Name), filter + "*.json");
+            foreach (var id in list)
+            {
+                var obj = Read<T>(Path.GetFileNameWithoutExtension(id));
+                objList.Add(obj);
+            }
+            return objList;
         }
     }
 }
