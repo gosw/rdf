@@ -1,0 +1,73 @@
+﻿@model sheego.Framework.Presentation.Web.Models.ReleaseCombined
+
+@{
+    ViewBag.Title = "Edit release";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{  
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <!-- Text input-->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Release.Version, new { @class = "col-md-2 control-label", @for = "textinput" })
+        <div class="col-md-4">
+            @Html.DisplayFor(model => model.Release.Version, new { @class = "form-control input-md" })
+            @Html.HiddenFor(model => model.Release.Version)
+        </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Release.Description, new { @class = "col-md-2 control-label", @for = "textarea" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Release.Description, new { placeholder = "Enter release description", @class = "form-control input-md" })
+        </div>
+    </div>
+
+    <!-- Due Date-->
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Release.DueDate, new { @class = "col-md-2 control-label", @for = "date" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Release.DueDate) <!-- ToDo: Change text to something generic -->
+        </div>
+    </div>
+
+    <hr />
+    <h4>Release Unit</h4>
+
+    <div class="form-group row">
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.newReleaseUnit, new { placeholder = "Enter release unit" })
+        </div>
+        <div class="col-md-2">
+            <button name="action" value="addreleaseunit" class="btn btn-primary">Add release unit</button>
+        </div>
+    </div>
+
+    <!-- List of releaseunits -->
+    for (var i = 0; i < Model.Release.UnitList.Count; i++)
+    {
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Release.UnitList[i].Name)
+            </div>
+        </div>
+    }
+
+    <!-- Buttons -->
+    <div class="form-group row">
+        <div class="col-md-2">
+            <button name="action" value="save" class="btn btn-primary">Save</button>
+        </div>
+        <div class="col-md-2 col-md-offset-2">
+            <button name="action" value="confirmrelease" class="btn btn-primary">Confirm release</button>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
