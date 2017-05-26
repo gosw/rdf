@@ -9,6 +9,7 @@ namespace sheego.Framework.Data.Tests
         [TestMethod]
         public void TestMethod1()
         {
+
         }
     }
 }
