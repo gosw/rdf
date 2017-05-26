@@ -31,6 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTests", "Data\DataTests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{75E9619F-8342-47CA-B672-EA4CF9FE8466}"
 	ProjectSection(SolutionItems) = preProject
+		.tfignore = .tfignore
 		SolutionItems\GlobalAssemblyInfo.cs = SolutionItems\GlobalAssemblyInfo.cs
 	EndProjectSection
 EndProject
@@ -90,5 +91,47 @@ Global
 		{5C2FCD0A-1BBB-4190-9F49-581A428C5FA6} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
 		{5851051F-40C4-4260-B913-97868D015CED} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
 		{0B160BB1-0DEF-46F4-8117-2DC24C4E727E} = {FE6A3370-9515-40B5-90E3-BBC7B8BF5DB5}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs41
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Presentation\\Web\\Web.csproj
+		SccProjectTopLevelParentUniqueName1 = sheego.Framework.sln
+		SccProjectName1 = Presentation/Web
+		SccLocalPath1 = Presentation\\Web
+		SccProjectUniqueName2 = Locator\\LocatorShared\\LocatorShared.csproj
+		SccProjectTopLevelParentUniqueName2 = sheego.Framework.sln
+		SccProjectName2 = Locator/LocatorShared
+		SccLocalPath2 = Locator\\LocatorShared
+		SccProjectUniqueName3 = Domain\\DomainImpl\\DomainImpl.csproj
+		SccProjectTopLevelParentUniqueName3 = sheego.Framework.sln
+		SccProjectName3 = Domain/DomainImpl
+		SccLocalPath3 = Domain\\DomainImpl
+		SccProjectUniqueName4 = Domain\\DomainShared\\DomainShared.csproj
+		SccProjectTopLevelParentUniqueName4 = sheego.Framework.sln
+		SccProjectName4 = Domain/DomainShared
+		SccLocalPath4 = Domain\\DomainShared
+		SccProjectUniqueName5 = Locator\\LocatorInternal\\LocatorInternal.csproj
+		SccProjectTopLevelParentUniqueName5 = sheego.Framework.sln
+		SccProjectName5 = Locator/LocatorInternal
+		SccLocalPath5 = Locator\\LocatorInternal
+		SccProjectUniqueName6 = Domain\\DomainTests\\DomainTests.csproj
+		SccProjectTopLevelParentUniqueName6 = sheego.Framework.sln
+		SccProjectName6 = Domain/DomainTests
+		SccLocalPath6 = Domain\\DomainTests
+		SccProjectUniqueName7 = Data\\DataImpl\\DataImpl.csproj
+		SccProjectTopLevelParentUniqueName7 = sheego.Framework.sln
+		SccProjectName7 = Data/DataImpl
+		SccLocalPath7 = Data\\DataImpl
+		SccProjectUniqueName8 = Data\\DataShared\\DataShared.csproj
+		SccProjectTopLevelParentUniqueName8 = sheego.Framework.sln
+		SccProjectName8 = Data/DataShared
+		SccLocalPath8 = Data\\DataShared
+		SccProjectUniqueName9 = Data\\DataTests\\DataTests.csproj
+		SccProjectTopLevelParentUniqueName9 = sheego.Framework.sln
+		SccProjectName9 = Data/DataTests
+		SccLocalPath9 = Data\\DataTests
 	EndGlobalSection
 EndGlobal
