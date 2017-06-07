@@ -34,5 +34,15 @@ namespace sheego.Framework.Domain.Shared.Locator
         {
             return ContainerHolder.Resolve<IDeploymentStep>();
         }
+
+        public static ILocatedObject<IConfiguration> GetConfiguration()
+        {
+            return ContainerHolder.Resolve<IConfiguration>();
+        }
+
+        public static ILocatedObject<IStakeholder> GetStakeholder()
+        {
+            return ContainerHolder.Resolve<IStakeholder>();
+        }
     }
 }

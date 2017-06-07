@@ -9,7 +9,8 @@ namespace sheego.Framework.Presentation.Web.Util
 {
     public class Converter
     {
-      
+        #region Convert from Web-type to Domain-type
+
         public IRelease Convert(Release release)
         {
             using (var convertedRelease = DomainLocator.GetRelease())
@@ -53,6 +54,25 @@ namespace sheego.Framework.Presentation.Web.Util
             }
         }
 
+        public IConfiguration Convert(Configuration configuration)
+        {
+            using (var convertedConfiguration = DomainLocator.GetConfiguration())
+            {
+                foreach (var stakeholder in configuration.Stakeholders)
+                {
+                    using (var convertedStakeholder = DomainLocator.GetStakeholder())
+                    {
+                        convertedStakeholder.Object.Name = stakeholder.Name;
+                        convertedConfiguration.Object.Stakeholders.Add(convertedStakeholder.Object);
+                    }
+                }
+                return convertedConfiguration.Object;
+            }
+        }
+        #endregion Convert from Web-type to Domain-type
+
+        #region Convert from Domain-type to Web-type
+
         public Release Convert(IRelease releaseBO)
         {
             var convertedRelease = new Release();
@@ -87,5 +107,19 @@ namespace sheego.Framework.Presentation.Web.Util
             convertedDeploymentStep.StepState = (Models.DeploymentStepState)deploymentStepBO.StepState;
             return convertedDeploymentStep;
         }
+
+        public Configuration Convert(IConfiguration configurationBO)
+        {
+            var convertedConfiguration = new Configuration();
+            foreach(var stakeholderBO in configurationBO.Stakeholders)
+            {
+                var convertedStakeholder = new Stakeholder();
+                convertedStakeholder.Name = stakeholderBO.Name;
+                convertedConfiguration.Stakeholders.Add(convertedStakeholder);
+            }
+            return convertedConfiguration;
+        }
+
+        #endregion Convert from Domain-type to Web-type
     }
 }

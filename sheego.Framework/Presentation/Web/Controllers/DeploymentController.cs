@@ -35,7 +35,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             var deployment = new Deployment();
             deployment.Name = name;
 
-            //ToDo: Liste der environments von config holen
+            //ToDo: Get list of environments from configuration
             using (var service = DomainLocator.GetRepositoryService())
             {
                 deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());

@@ -49,10 +49,12 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="IAuthorizationService.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="IDeployment.cs" />
     <Compile Include="IDeploymentStep.cs" />
     <Compile Include="IRelease.cs" />
     <Compile Include="IReleaseUnit.cs" />
+    <Compile Include="IStakeholder.cs" />
     <Compile Include="Locator\DomainLocator.cs" />
     <Compile Include="IRepositoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

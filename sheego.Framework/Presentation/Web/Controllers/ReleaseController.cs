@@ -2,7 +2,10 @@
 using sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Util;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace sheego.Framework.Presentation.Web.Controllers
@@ -33,6 +36,13 @@ namespace sheego.Framework.Presentation.Web.Controllers
             var releaseCombined = new ReleaseCombined();
             releaseCombined.Release = new Release();
             releaseCombined.Release.Version = version;
+
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
+                var converter = new Converter();
+                releaseCombined.Stakeholders = converter.Convert(configData).Stakeholders;
+            }
             return View(releaseCombined);
         }
 
@@ -46,8 +56,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 case "addreleaseunit":
                     releaseCombined.Release.UnitList.Add(new ReleaseUnit() { Name = releaseCombined.newReleaseUnit });
-                    //Clear 
-                    releaseCombined.newReleaseUnit = ""; //ToDo: is not empty
                     break;
 
                 case "save":
@@ -66,7 +74,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     //ToDo: Add field Status in Deployment and set Status here
                     break;
             }
-            //ToDo: is not empty here too releaseCombined.newReleaseUnit = ""; 
             return View(releaseCombined);
         }
 
@@ -83,13 +90,17 @@ namespace sheego.Framework.Presentation.Web.Controllers
             ReleaseCombined releaseCombined = null;
             using (var service = DomainLocator.GetRepositoryService())
             {
+                releaseCombined = new ReleaseCombined();
+                var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
+                var converter = new Converter();
+                releaseCombined.Stakeholders = converter.Convert(configData).Stakeholders;
+
                 var releases = service.Object.ReadReleases();
                 foreach (var releaseBO in releases)
                 {
                     if (releaseBO.Version == version)
                     {
-                        var converter = new Converter();
-                        releaseCombined = new ReleaseCombined();
+                        //var converter = new Converter();
                         releaseCombined.Release = converter.Convert(releaseBO);
                     }
                 }
@@ -112,8 +123,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 case "addreleaseunit":
                     releaseCombined.Release.UnitList.Add(new ReleaseUnit() { Name = releaseCombined.newReleaseUnit });
-                    //Clear 
-                    releaseCombined.newReleaseUnit = ""; //ToDo: is not empty
                     break;
 
                 case "save":
@@ -184,6 +193,81 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 }
             }
             return View();
+        }
+
+        // GET: Releases/Prepare
+        //[FrameworkAuthorization]
+        public ActionResult Prepare(string version)
+        {
+            //Get Release by version and display release units
+            if (version == null)
+            {
+                ViewBag.Message = "Invalid version number. Nothing to display.";
+                return View();
+            }
+
+            ReleasePrepared releasePrepared = null;
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                //ToDo: Change to ReadReleaseVersions() and then Read() one Release
+                var releases = service.Object.ReadReleases(); 
+                foreach (var releaseBO in releases)
+                {
+                    if (releaseBO.Version == version)
+                    {
+                        var converter = new Converter();
+                        //release = new Release();
+                        releasePrepared = new ReleasePrepared();
+                        releasePrepared.Release = converter.Convert(releaseBO);
+                    }
+                }
+            }
+
+            if (releasePrepared == null)
+            {
+                return HttpNotFound();
+            }
+            return View(releasePrepared);
+        }
+
+        // POST: Releases/Prepare
+        [HttpPost]
+        //[FrameworkAuthorization]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Prepare(ReleasePrepared releasePrepared, string action, HttpPostedFileBase file, string type, string name, string id)
+        {
+            switch (action)
+            {
+                case "addreleaseelement":
+                    //ToDo: Add list of Release Elements in Domain.Release and add Release Elements here
+                    //releasePrepared.Release.ElementList.Add(new ReleaseElement() { Element = releasePrepared.newReleaseElement });
+
+                    //Temp: Add path of the uploaded file to display it here
+                    string fileName = Path.GetFileName(releasePrepared.newReleaseElement.FileName);
+                    string filePath = Path.Combine(ConfigurationManager.AppSettings["RootPath"], "Attachment", fileName);
+                    releasePrepared.newReleaseElement.SaveAs(filePath); //Overwrite file if already exists
+
+                    //Clear form
+                    //releasePrepared.newReleaseElement = ""; //ToDo: is not empty
+                    break;
+
+                case "save":
+                    if (ModelState.IsValid)
+                    {
+                        using (var service = DomainLocator.GetRepositoryService())
+                        {
+                            var converter = new Converter();
+                            service.Object.CreateRelease(converter.Convert(releasePrepared.Release));
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    break;
+
+                case "confirmprepare":
+                    //ToDo: Add field Status in ??? and set Status here
+                    break;
+            }
+            return View(releasePrepared);
         }
 
         public ActionResult Unauthorized()

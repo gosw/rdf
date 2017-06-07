@@ -40,7 +40,8 @@
 
     <div class="form-group row">
         <div class="col-md-4">
-            @Html.EditorFor(model => model.newReleaseUnit, new { placeholder = "Enter release unit" })
+            <input id="newReleaseUnit" name="newReleaseUnit" placeholder="Enter release unit" type="text" value="">
+            @*@Html.EditorFor(model => model.newReleaseUnit, new { placeholder = "Enter release unit" })*@
         </div>
         <div class="col-md-2">
             <button name="action" value="addreleaseunit" class="btn btn-primary">Add release unit</button>
@@ -48,11 +49,28 @@
     </div>
 
     <!-- List of releaseunits -->
+    <div class="form-group row">
+        <div class="col-md-4">
+        </div>
+        <div>
+            @for (var i = 0; i < Model.Stakeholders.Count; i++)
+            {
+                <span style="display: inline-block;width:35px;padding-left:7px">@Model.Stakeholders[i].Name @Html.HiddenFor(model => model.Stakeholders[i].Name)</span>
+            }
+        </div>
+    </div>
     for (var i = 0; i < Model.Release.UnitList.Count; i++)
     {
         <div class="form-group row">
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Release.UnitList[i].Name)
+                @Html.DisplayFor(model => model.Release.UnitList[i].Name)
+                @Html.HiddenFor(model => model.Release.UnitList[i].Name)
+            </div>
+            <div>
+                @for (var x = 0; x < Model.Stakeholders.Count; x++)
+                {
+                    <input style="width:35px" type="checkbox" /> <!-- ToDo: Mark where the checkboxes are checked in the object -->
+                }
             </div>
         </div>
     }

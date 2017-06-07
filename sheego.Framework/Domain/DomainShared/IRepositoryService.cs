@@ -8,14 +8,15 @@ namespace sheego.Framework.Domain.Shared
         void CreateRelease(IRelease release);
         void CreateDeployment(IDeployment deployment);
         void CreateDeploymentStep(string deploymentName, IDeploymentStep deploymentStep);
+        IEnumerable<string> ReadReleaseVersions();
         IList<IRelease> ReadReleases();
         IList<IDeployment> ReadDeployments();
-        IDeployment ReadDeployment(string id);
         //ToDo: to complete later
-        //ReadRelease(string id) 
+        //ReadRelease(string id)
+        IDeployment ReadDeployment(string id); 
+        IEnumerable<IDeploymentStep> ReadDeploymentSteps(string name);
+        IConfiguration ReadConfiguration(string id);
         void DeleteRelease(IRelease release);
         void DeleteDeployment(IDeployment deployment);
-        IEnumerable<string> ReadReleaseVersions();
-        IEnumerable<IDeploymentStep> ReadDeploymentSteps(string name);
     }
 }

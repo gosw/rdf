@@ -59,7 +59,7 @@
 @using (Html.BeginForm("Create", "Deployment", FormMethod.Get))
 {
     <p>
-        @Html.TextBox("Name")
+        @Html.TextBox("Name", "", new { placeholder = "Enter deployment name" })
         <button name="action" value="addnewdeployment" class="btn btn-primary">Add new deployment</button>
     </p>
 }

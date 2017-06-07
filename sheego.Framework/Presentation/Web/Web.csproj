@@ -145,13 +145,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\DeploymentStepState.cs" />
     <Compile Include="Models\Deployment.cs" />
     <Compile Include="Models\DeploymentStep.cs" />
     <Compile Include="Models\Release.cs" />
     <Compile Include="Models\ReleaseCombined.cs" />
+    <Compile Include="Models\ReleasePrepared.cs" />
     <Compile Include="Models\ReleaseUnit.cs" />
     <Compile Include="Models\RunDeployment.cs" />
+    <Compile Include="Models\Stakeholder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Converter.cs" />
   </ItemGroup>
@@ -200,6 +203,7 @@
     <Content Include="Views\Deployment\Edit.cshtml" />
     <Content Include="Views\Deployment\Delete.cshtml" />
     <Content Include="Views\Deployment\Execute.cshtml" />
+    <Content Include="Views\Release\Prepare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

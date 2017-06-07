@@ -19,7 +19,7 @@ namespace sheego.Framework.Presentation.Web.Models
 
         [Display(Name = "Deployment on")]
         //[DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { set; get; }
 
         public string Environment { set; get; }

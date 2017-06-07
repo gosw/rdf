@@ -11,6 +11,7 @@ namespace sheego.Framework.Domain.Impl
         public IList<IReleaseUnit> UnitList { get; set; }
         public string Version { get; set; }
 
+
         public Release()
         {
             UnitList = new List<IReleaseUnit>();

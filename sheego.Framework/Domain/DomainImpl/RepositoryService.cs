@@ -9,6 +9,8 @@ namespace sheego.Framework.Domain.Impl
 {
     class RepositoryService : IRepositoryService
     {
+        #region Create
+
         public void CreateRelease(IRelease release)
         {
             using (var service = DataLocator.GetPersistenceService())
@@ -31,6 +33,23 @@ namespace sheego.Framework.Domain.Impl
             {
                 service.Object.Create(deploymentName + " Step" + deploymentStep.Id, deploymentStep);
             }
+        }
+
+        #endregion Create
+
+        #region Read
+
+        public IEnumerable<string> ReadReleaseVersions()
+        {
+            var list = new List<string>();
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                foreach (var id in service.Object.List<IRelease>())
+                {
+                    list.Add(id);
+                }
+            }
+            return list;
         }
 
         public IList<IRelease> ReadReleases()
@@ -61,43 +80,14 @@ namespace sheego.Framework.Domain.Impl
             return list;
         }
 
+        //ToDo: ReadRelease(id)
+
         public IDeployment ReadDeployment(string id)
         {
             using (var service = DataLocator.GetPersistenceService())
             {
                 return service.Object.Read<IDeployment>(id);
             }
-        }
-
-        //ToDo: ReadRelease(id)
-
-        public void DeleteRelease(IRelease release)
-        {
-            using (var service = DataLocator.GetPersistenceService())
-            {
-                service.Object.Delete(release.Version, release);
-            }
-        }
-
-        public void DeleteDeployment(IDeployment deployment)
-        {
-            using (var service = DataLocator.GetPersistenceService())
-            {
-                service.Object.Delete(deployment.Name, deployment); 
-            }
-        }
-
-        public IEnumerable<string> ReadReleaseVersions()
-        {
-            var list = new List<string>();
-            using (var service = DataLocator.GetPersistenceService())
-            {
-                foreach (var id in service.Object.List<IRelease>())
-                {
-                    list.Add(id);
-                }
-            }
-            return list;
         }
 
         public IEnumerable<IDeploymentStep> ReadDeploymentSteps (string deploymentName)
@@ -121,5 +111,39 @@ namespace sheego.Framework.Domain.Impl
                 return list;
             }
         }
+
+        public IConfiguration ReadConfiguration(string id)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                return service.Object.Read<IConfiguration>(id);
+            }
+        }
+
+        #endregion Read
+
+        #region Update
+        #endregion Update
+
+        #region Delete
+
+        public void DeleteRelease(IRelease release)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                service.Object.Delete(release.Version, release);
+            }
+        }
+
+        public void DeleteDeployment(IDeployment deployment)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                service.Object.Delete(deployment.Name, deployment); 
+            }
+        }
+
+        #endregion Delete
+
     }
 }

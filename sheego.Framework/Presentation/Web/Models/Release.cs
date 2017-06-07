@@ -13,16 +13,17 @@ namespace sheego.Framework.Presentation.Web.Models
 
         [Display(Name = "Release due on")]
         //[DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { set; get; }
 
         public List<ReleaseUnit> UnitList { get; set; }
 
-        //public Stakeholder S { set; get; } //ToDo: to complete later
+        public List<Stakeholder> StakeholderList { set; get; } //Only stakeholders assigned to this release object
 
         public Release()
         {
             UnitList = new List<ReleaseUnit>();
+            StakeholderList = new List<Stakeholder>();
         }
     }
 }
