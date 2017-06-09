@@ -21,7 +21,7 @@
                 @Html.DisplayNameFor(model => model.DueDate)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Stakeholders)*@ <!--ToDo: to complete later-->
+                @Html.DisplayNameFor(model => model.UnitList[0].StakeholderList)
             </th>
             <th></th>
         </tr>
@@ -40,7 +40,24 @@
                     @Html.DisplayFor(modelItem => item.DueDate)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Stakeholders)*@
+                    @{ 
+                        var participatingStakeholders = "";
+                        foreach(var releaseUnit in item.UnitList)
+                        {
+                            foreach(var stakeholder in releaseUnit.StakeholderList)
+                            {
+                                if(stakeholder.isParticipating && !participatingStakeholders.Contains(stakeholder.Name))
+                                {
+                                    participatingStakeholders = participatingStakeholders + " " + stakeholder.Name;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    @Html.Raw(participatingStakeholders)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { version=item.Version}) |
@@ -49,7 +66,6 @@
                 </td>
             </tr>
         }
-        
     </table>
 }
 

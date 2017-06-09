@@ -39,14 +39,28 @@
     <h4>Release Unit</h4>
 
     <!-- List of releaseunits -->
-    for (var i = 0; i < Model.Release.UnitList.Count; i++)
-    {
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.DisplayFor(model => model.Release.UnitList[i].Name)
-            </div>
-        </div>
-    }
+    <table class="table">
+        <tr>
+            <th>Release Unit List</th>
+            @for (var i = 0; i < Model.StakeholdersHeadline.Count; i++)
+            {
+                <th style="text-align:center">@Model.StakeholdersHeadline[i].Name</th>
+                @Html.HiddenFor(model => model.StakeholdersHeadline[i].Name)
+            }
+        </tr>
+        @for (var j = 0; j < Model.Release.UnitList.Count; j++)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => model.Release.UnitList[j].Name)</td>
+                @Html.HiddenFor(model => model.Release.UnitList[j].Name)
+                @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
+                {
+                    <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
+                }
+            </tr>
+        }
+    </table>
 
     <!-- Buttons -->
     <div class="form-group row">

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace sheego.Framework.Domain.Shared
+﻿namespace sheego.Framework.Domain.Shared
 {
     public interface IStakeholder
     {
         string Name { get; set; }
+        bool isParticipating { get; set; }
     }
 }

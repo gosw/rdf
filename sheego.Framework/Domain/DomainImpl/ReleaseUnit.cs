@@ -1,9 +1,17 @@
 ﻿using sheego.Framework.Domain.Shared;
+using System.Collections.Generic;
 
 namespace sheego.Framework.Domain.Impl
 {
     class ReleaseUnit : IReleaseUnit
     {
         public string Name { get; set; }
+
+        public IList<IStakeholder> StakeholderList { get; set; }
+
+        public ReleaseUnit()
+        {
+            StakeholderList = new List<IStakeholder>();
+        }
     }
 }

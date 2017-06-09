@@ -3,5 +3,7 @@
     public class Stakeholder
     {
         public string Name { get; set; }
+
+        public bool isParticipating { get; set; }
     }
 }

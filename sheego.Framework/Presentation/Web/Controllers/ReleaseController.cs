@@ -41,7 +41,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
                 var converter = new Converter();
-                releaseCombined.Stakeholders = converter.Convert(configData).Stakeholders;
+                releaseCombined.StakeholdersHeadline = converter.Convert(configData).Stakeholders;
             }
             return View(releaseCombined);
         }
@@ -55,7 +55,17 @@ namespace sheego.Framework.Presentation.Web.Controllers
             switch (action)
             {
                 case "addreleaseunit":
-                    releaseCombined.Release.UnitList.Add(new ReleaseUnit() { Name = releaseCombined.newReleaseUnit });
+                    var releaseUnit = new ReleaseUnit();
+                    releaseUnit.Name = releaseCombined.newReleaseUnit;
+                    for (var i = 0; i < releaseCombined.StakeholdersHeadline.Count; i++)
+                    {
+                        releaseUnit.StakeholderList.Add(new Stakeholder()
+                        {
+                            Name = releaseCombined.StakeholdersHeadline[i].Name,
+                            isParticipating = false
+                        });
+                    }
+                    releaseCombined.Release.UnitList.Add(releaseUnit);
                     break;
 
                 case "save":
@@ -70,9 +80,9 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     }
                     break;
 
-                case "confirmrelease":
-                    //ToDo: Add field Status in Deployment and set Status here
-                    break;
+                //case "confirmrelease":
+                //    //ToDo: Add field Status in Deployment and set Status here
+                //    break;
             }
             return View(releaseCombined);
         }
@@ -93,14 +103,13 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 releaseCombined = new ReleaseCombined();
                 var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
                 var converter = new Converter();
-                releaseCombined.Stakeholders = converter.Convert(configData).Stakeholders;
+                releaseCombined.StakeholdersHeadline = converter.Convert(configData).Stakeholders;
 
                 var releases = service.Object.ReadReleases();
                 foreach (var releaseBO in releases)
                 {
                     if (releaseBO.Version == version)
                     {
-                        //var converter = new Converter();
                         releaseCombined.Release = converter.Convert(releaseBO);
                     }
                 }
@@ -122,7 +131,17 @@ namespace sheego.Framework.Presentation.Web.Controllers
             switch (action)
             {
                 case "addreleaseunit":
-                    releaseCombined.Release.UnitList.Add(new ReleaseUnit() { Name = releaseCombined.newReleaseUnit });
+                    var releaseUnit = new ReleaseUnit();
+                    releaseUnit.Name = releaseCombined.newReleaseUnit;
+                    for (var i = 0; i < releaseCombined.StakeholdersHeadline.Count; i++)
+                    {
+                        releaseUnit.StakeholderList.Add(new Stakeholder()
+                        {
+                            Name = releaseCombined.StakeholdersHeadline[i].Name,
+                            isParticipating = false
+                        });
+                    }
+                    releaseCombined.Release.UnitList.Add(releaseUnit);
                     break;
 
                 case "save":
@@ -137,9 +156,9 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     }
                     break;
 
-                case "confirmrelease":
-                    //ToDo: Add field Status in Deployment and set Status here
-                    break;
+                //case "confirmrelease":
+                //    //ToDo: Add field Status in Deployment and set Status here
+                //    break;
             }
             return View(releaseCombined);
         }
@@ -158,13 +177,16 @@ namespace sheego.Framework.Presentation.Web.Controllers
             ReleaseCombined releaseCombined = null;
             using (var service = DomainLocator.GetRepositoryService())
             {
+                releaseCombined = new ReleaseCombined();
+                var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
+                var converter = new Converter();
+                releaseCombined.StakeholdersHeadline = converter.Convert(configData).Stakeholders;
+
                 var releases = service.Object.ReadReleases();
                 foreach (var releaseBO in releases)
                 {
                     if (releaseBO.Version == version)
                     {
-                        var converter = new Converter();
-                        releaseCombined = new ReleaseCombined();
                         releaseCombined.Release = converter.Convert(releaseBO);
                     }
                 }
@@ -216,7 +238,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     if (releaseBO.Version == version)
                     {
                         var converter = new Converter();
-                        //release = new Release();
                         releasePrepared = new ReleasePrepared();
                         releasePrepared.Release = converter.Convert(releaseBO);
                     }
@@ -234,7 +255,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
         [HttpPost]
         //[FrameworkAuthorization]
         //[ValidateAntiForgeryToken]
-        public ActionResult Prepare(ReleasePrepared releasePrepared, string action, HttpPostedFileBase file, string type, string name, string id)
+        public ActionResult Prepare(ReleasePrepared releasePrepared, string action, HttpPostedFileBase file)
         {
             switch (action)
             {

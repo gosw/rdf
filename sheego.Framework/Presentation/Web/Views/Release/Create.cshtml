@@ -24,7 +24,6 @@
         @Html.LabelFor(model => model.Release.Description, new { @class = "col-md-2 control-label", @for = "textarea" })
         <div class="col-md-4">
             @Html.TextAreaFor(model => model.Release.Description, new { placeholder = "Enter release description", @class = "form-control input-md" })
-            @Html.ValidationMessageFor(model => model.Release.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -33,7 +32,6 @@
         @Html.LabelFor(model => model.Release.DueDate, new { @class = "col-md-2 control-label", @for = "date" })
         <div class="col-md-4">
             @Html.TextBoxFor(model => model.Release.DueDate, new { type = "date", value = new { DateTime.Now } }) <!-- ToDo: Change text to something generic -->
-            @Html.ValidationMessageFor(model => model.Release.DueDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -43,8 +41,6 @@
     <div class="form-group row">
         <div class="col-md-4">
             <input id="newReleaseUnit" name="newReleaseUnit" placeholder="Enter release unit" type="text" value="">
-            @*@Html.TextBoxFor(model => model.newReleaseUnit, new { placeholder = "Enter release unit", value = " " })*@
-            @Html.ValidationMessageFor(model => model.newReleaseUnit, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-2">
             <button name="action" value="addreleaseunit" class="btn btn-primary">Add release unit</button>
@@ -52,40 +48,37 @@
     </div>
 
     <!-- List of releaseunits -->
-    <div class="form-group row">
-        <div class="col-md-4">
-        </div>
-        <div>
-            @for (var i = 0; i < Model.Stakeholders.Count; i++)
+    <table class="table">
+        <tr>
+            <th>Release Unit List</th>
+            @for (var i = 0; i < Model.StakeholdersHeadline.Count; i++)
             {
-                <span style="display: inline-block;width:35px;padding-left:7px">@Model.Stakeholders[i].Name @Html.HiddenFor(model => model.Stakeholders[i].Name)</span>
+                <th style="text-align:center">@Model.StakeholdersHeadline[i].Name</th>
+                @Html.HiddenFor(model => model.StakeholdersHeadline[i].Name)
             }
-        </div>
-    </div>
-    for (var i = 0; i < Model.Release.UnitList.Count; i++)
-    {
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.DisplayFor(model => model.Release.UnitList[i].Name)
-                @Html.HiddenFor(model => model.Release.UnitList[i].Name)
-            </div>
-            <div>
-                @for (var x = 0; x < Model.Stakeholders.Count; x++)
+        </tr>
+        @for (var j = 0; j < Model.Release.UnitList.Count; j++)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => model.Release.UnitList[j].Name)</td>
+                @Html.HiddenFor(model => model.Release.UnitList[j].Name)
+                @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
                 {
-                  <input style="width:35px" type="checkbox" />
+                    <td style="text-align:center">@Html.CheckBoxFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
                 }
-            </div>
-        </div>
-    }
+            </tr>
+        }
+    </table>
 
-        <!-- Buttons -->
+    <!-- Buttons -->
     <div class="form-group row">
         <div class="col-md-2">
             <button name="action" value="save" class="btn btn-primary">Save</button>
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <button name="action" value="confirmrelease" class="btn btn-primary">Confirm release</button>
-        </div>
+        @*<div class="col-md-2 col-md-offset-2">
+                <button name="action" value="confirmrelease" class="btn btn-primary">Confirm release</button>
+            </div>*@
     </div>
 }
 
