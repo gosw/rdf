@@ -1,9 +1,5 @@
 ﻿using sheego.Framework.Domain.Shared;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sheego.Framework.Domain.Impl
 {
@@ -11,9 +7,12 @@ namespace sheego.Framework.Domain.Impl
     {
         public IList<IStakeholder> Stakeholders { set; get; }
 
+        public IList<string> DeployEnvironments { set; get; }
+
         public Configuration()
         {
             Stakeholders = new List<IStakeholder>();
+            DeployEnvironments = new List<string>();
         }
     }
 }

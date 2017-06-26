@@ -44,5 +44,15 @@ namespace sheego.Framework.Domain.Shared.Locator
         {
             return ContainerHolder.Resolve<IStakeholder>();
         }
+
+        public static ILocatedObject<IVerificationService> GetVerificationService()
+        {
+            return ContainerHolder.Resolve<IVerificationService>();
+        }
+
+        public static ILocatedObject<IVerificationMessage> GetVerificationMessage()
+        {
+            return ContainerHolder.Resolve<IVerificationMessage>();
+        }
     }
 }

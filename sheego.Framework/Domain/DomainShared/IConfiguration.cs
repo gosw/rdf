@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace sheego.Framework.Domain.Shared
 {
     public interface IConfiguration
     {
         IList<IStakeholder> Stakeholders { set; get; }
+        IList<string> DeployEnvironments { set; get; }
     }
 }

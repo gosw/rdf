@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
-{
+{<!-- ToDo: Change text to something generic -->
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <!-- Name -->
@@ -21,7 +21,8 @@
         <!-- Due Date -->
         @Html.LabelFor(model => model.Deployment.DueDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-2">
-            @Html.DisplayFor(model => model.Deployment.DueDate) <!-- ToDo: Change text to something generic -->
+            @Html.DisplayFor(model => model.Deployment.DueDate) 
+            @Html.HiddenFor(model => model.Deployment.DueDate)
         </div>
     </div>
 
@@ -30,46 +31,61 @@
         @Html.LabelFor(model => model.Deployment.Environment, new { @class = "col-md-2 control-label" })
         <div class="col-md-4">
             @Html.DisplayFor(model => model.Deployment.Environment, new { @class = "form-control input-md" })
+            @Html.HiddenFor(model => model.Deployment.Environment)
         </div>
 
         <!-- Release -->
         @Html.LabelFor(model => model.Deployment.ReleaseVersion, new { @class = "col-md-2 control-label" })
         <div class="col-md-2">
             @Html.DisplayFor(model => model.Deployment.ReleaseVersion)
+            @Html.HiddenFor(model => model.Deployment.ReleaseVersion)
         </div>
     </div>
 
     <!-- List of DeploymentSteps -->
-    for (var i = 0; i < Model.DeploymentSteps.Count; i++)
+    if (Model.Deployment.Status == sheego.Framework.Presentation.Web.Models.DeploymentStatus.Active)
     {
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.DisplayFor(model => model.DeploymentSteps[i].Description)
+        <p>
+            <button disabled class="btn-default">Deployment running</button>
+        </p>
+        <hr />
+
+        for (var i = 0; i < Model.DeploymentSteps.Count; i++)
+        {
+            <div class="form-group row">
+                <div class="col-md-4">
+                    @Html.DisplayFor(model => model.DeploymentSteps[i].Description)
+                </div>
+                <div class="col-md-4">
+                    @switch (Model.DeploymentSteps[i].StepState)
+                    {
+                        case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Init:
+                            <span>Start</span>
+                            break;
+                        case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Active:
+                            @Html.ActionLink("Complete", "RunExecute", new { name = Model.Deployment.Name, stepAction = "complete", stepId = Model.DeploymentSteps[i].Id }) <span>|</span>
+                            @Html.ActionLink("Skip", "RunExecute", new { name = Model.Deployment.Name, stepAction = "skip", stepId = Model.DeploymentSteps[i].Id }) <span>|</span>
+                            @Html.ActionLink("Failed", "RunExecute", new { name = Model.Deployment.Name, stepAction = "failed", stepId = Model.DeploymentSteps[i].Id })
+                            break;
+                        case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Successful:
+                            <span>Successfull</span>
+                            break;
+                        case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Skipped:
+                            <span>Skipped</span>
+                            break;
+                        case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Failed:
+                            <span>Failed</span>
+                            break;
+                    }
+                </div>
             </div>
-            <div class="col-md-4">
-                @switch (Model.DeploymentSteps[i].StepState)
-                {
-                    case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Init:
-                        <span>Start</span>
-                        break;
-                    case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Active:
-                        @Html.ActionLink("Complete", "RunExecute", new { name = Model.Deployment.Name, stepAction = "complete", stepId = Model.DeploymentSteps[i].Id }) <span>|</span>
-                        @Html.ActionLink("Skip", "RunExecute", new { name = Model.Deployment.Name, stepAction = "skip", stepId = Model.DeploymentSteps[i].Id }) <span>|</span>
-                        @Html.ActionLink("Failed", "RunExecute", new { name = Model.Deployment.Name, stepAction = "failed", stepId = Model.DeploymentSteps[i].Id })
-                        break;
-                    case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Successful:
-                        <span>Successfull</span>
-                        break;
-                    case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Skipped:
-                        <span>Skipped</span>
-                        break;
-                    case sheego.Framework.Presentation.Web.Models.DeploymentStepState.Failed:
-                        <span>Failed</span>
-                        break;
-                }
-                          
-            </div>
-       </div>
+        }
+    }
+    else
+    {
+        <p>
+            @Html.ActionLink("Start deployment", "RunExecute", "Deployment", new { name = Model.Deployment.Name, stepAction = "startdeployment", stepId = " " }, new { @class = "btn btn-primary" })
+        </p>
     }
 }
 

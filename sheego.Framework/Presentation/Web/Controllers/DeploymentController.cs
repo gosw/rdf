@@ -1,5 +1,4 @@
-﻿using sheego.Framework.Data.Shared.Locator;
-using sheego.Framework.Domain.Shared.Locator;
+﻿using sheego.Framework.Domain.Shared.Locator;
 using BO = sheego.Framework.Domain.Shared;
 using sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Util;
@@ -35,11 +34,12 @@ namespace sheego.Framework.Presentation.Web.Controllers
             var deployment = new Deployment();
             deployment.Name = name;
 
-            //ToDo: Get list of environments from configuration
             using (var service = DomainLocator.GetRepositoryService())
             {
                 deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
-                deployment.Environments = new SelectList(new[] { "Test", "Preprod" });
+                var configData = service.Object.ReadConfiguration("MainConfiguration");
+                var converter = new Converter();
+                deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
             }
             return View(deployment);
         }
@@ -64,14 +64,38 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     }
                     break;
 
-                case "confirmdeployment":
-                    //ToDo: Add field Status in Deployment and set Status here
-                    break;
+                case "verify":
+                    using (var service = DomainLocator.GetVerificationService())
+                    {
+                        var converter = new Converter();
+                        using (var repoService = DomainLocator.GetRepositoryService())
+                        {
+                            deployment.ReleaseVersions = new SelectList(repoService.Object.ReadReleaseVersions());
+                            var configData = repoService.Object.ReadConfiguration("MainConfiguration");
+                            deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+
+                            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "allok");
+                            deployment.Status = DeploymentStatus.Verified;
+                            foreach (var message in verifiedMessages)
+                            {
+                                deployment.VerificationMessages.Add(converter.Convert(message));
+                                if (message.Status != BO.VerificationStatus.OK)
+                                {
+                                    deployment.Status = DeploymentStatus.Init;
+                                }
+                            }
+                        }
+                    }
+                    return View(deployment);
             }
-            using (var service = DomainLocator.GetRepositoryService())
+
+            using (var repoService = DomainLocator.GetRepositoryService())
             {
-                deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
-                deployment.Environments = new SelectList(new[] { "Test", "Preprod" });
+                deployment.ReleaseVersions = new SelectList(repoService.Object.ReadReleaseVersions());
+                var configData = repoService.Object.ReadConfiguration("MainConfiguration");
+                var converter = new Converter();
+                deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+                deployment.Status = DeploymentStatus.Init;
                 return View(deployment);
             }
         }
@@ -97,7 +121,8 @@ namespace sheego.Framework.Presentation.Web.Controllers
                         var converter = new Converter();
                         deployment = converter.Convert(deploymentBO);
                         deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
-                        deployment.Environments = new SelectList(new[] { "Test", "Preprod" });
+                        var configData = service.Object.ReadConfiguration("MainConfiguration");
+                        deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
                         break;
                     }
                 }
@@ -125,27 +150,43 @@ namespace sheego.Framework.Presentation.Web.Controllers
                         {
                             var converter = new Converter();
                             service.Object.CreateDeployment(converter.Convert(deployment));
-                            return RedirectToAction("Index");
                         }
+                        return RedirectToAction("Index");
                     }
                     break;
 
-                case "confirmrelease":
-                    // Verify if Deployment correct
-                    /*
+                case "verify":
                     using (var service = DomainLocator.GetVerificationService())
                     {
                         var converter = new Converter();
-                        IList<VerificationMessage> verificationMessageList = service.Object.Verify(converter.Convert(deployment));
+                        using (var repoService = DomainLocator.GetRepositoryService())
+                        {
+                            deployment.ReleaseVersions = new SelectList(repoService.Object.ReadReleaseVersions());
+                            var configData = repoService.Object.ReadConfiguration("MainConfiguration");
+                            deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+
+                            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "okwarn");
+                            deployment.Status = DeploymentStatus.Verified;
+                            foreach (var message in verifiedMessages)
+                            {
+                                deployment.VerificationMessages.Add(converter.Convert(message));
+                                if (message.Status != BO.VerificationStatus.OK)
+                                {
+                                    deployment.Status = DeploymentStatus.Init;
+                                }
+                            }
+                        }
                     }
-                    */
-                    //ToDo: Add field Status in Deployment and set Status here
-                    break;
+                    return View(deployment);
             }
+
             using (var service = DomainLocator.GetRepositoryService())
             {
                 deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
-                deployment.Environments = new SelectList(new[] { "Test", "Preprod" });
+                var configData = service.Object.ReadConfiguration("MainConfiguration");
+                var converter = new Converter();
+                deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+                deployment.Status = DeploymentStatus.Init;
                 return View(deployment);
             }
         }
@@ -218,10 +259,13 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 var converter = new Converter();
                 runDeployment.Deployment = converter.Convert(deploymentBO);
 
-                var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                foreach(var deploymentStep in deploymentSteps)
+                if (runDeployment.Deployment.Status == DeploymentStatus.Active)
                 {
-                    runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                    var deploymentSteps = service.Object.ReadDeploymentSteps(name);
+                    foreach (var deploymentStep in deploymentSteps)
+                    {
+                        runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                    }
                 }
             }
 
@@ -232,7 +276,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             return View(runDeployment);
         }
 
-        // GET: Deployments/Execute
+        // GET: Deployments/RunExecute
         //[FrameworkAuthorization]
         public ActionResult RunExecute(string name, string stepAction, string stepId)
         {
@@ -242,14 +286,38 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 return View();
             }
 
-            //For current Deployment Name change the status of Step with stepId and matching stepAction
+            //ToDo: Check if deployment is verified but allow to execute after additional confirmation
+            
+            var runDeployment = new RunDeployment();
+            var converter = new Converter();
             using (var service = DomainLocator.GetRepositoryService())
             {
-                //ToDo: Get Deployment to change its Status when Action is executed
+                //Get deployment and its steps.
+                var deploymentBO = service.Object.ReadDeployment(name);
+                runDeployment.Deployment = converter.Convert(deploymentBO);
                 var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                var converter = new Converter();
+                
                 switch (stepAction)
                 {
+                    case "startdeployment":
+                        //Set steps' status to init and ...
+                        foreach (var deploymentStep in deploymentSteps)
+                        {
+                            deploymentStep.StepState = BO.DeploymentStepState.Init;
+                            service.Object.CreateDeploymentStep(name, deploymentStep);
+                            runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+
+                            //... the first step's to active only if the list is not empty
+                            runDeployment.DeploymentSteps[0].StepState = DeploymentStepState.Active;
+                        }
+
+                        //Set deployment's status to active when deployment starts...
+                        deploymentBO.Status = BO.DeploymentStatus.Active;
+                        service.Object.CreateDeployment(deploymentBO);
+                        runDeployment.Deployment.Status = DeploymentStatus.Active;
+                        break;
+
+                        //... and change the status of a steps with stepId and matching stepAction
                     case "complete":
                         deploymentSteps.Single(s => s.Id == stepId).StepState = BO.DeploymentStepState.Successful;
                         service.Object.CreateDeploymentStep(name, deploymentSteps.Single(s => s.Id == stepId));
@@ -266,7 +334,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
                         break;
                 }
             }
-                return RedirectToAction("Execute", new { name = name });
+            return RedirectToAction("Execute", new { name = name });
         }
 
         public ActionResult Unauthorized()

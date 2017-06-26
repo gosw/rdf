@@ -66,6 +66,8 @@
     <Compile Include="Release.cs" />
     <Compile Include="ReleaseUnit.cs" />
     <Compile Include="Stakeholder.cs" />
+    <Compile Include="VerificationMessage.cs" />
+    <Compile Include="VerificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DataShared\DataShared.csproj">

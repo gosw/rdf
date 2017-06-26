@@ -48,6 +48,16 @@ namespace sheego.Framework.Domain.Impl.Locator
                 Component.For<IStakeholder>()
                 .ImplementedBy<Stakeholder>()
                 .LifestyleTransient());
+
+            container.Register(
+                Component.For<IVerificationService>()
+                .ImplementedBy<VerificationService>()
+                .LifestyleTransient());
+
+            container.Register(
+                Component.For<IVerificationMessage>()
+                .ImplementedBy<VerificationMessage>()
+                .LifestyleTransient());
         }
     }
 }

@@ -11,8 +11,7 @@ namespace sheego.Framework.Domain.Shared
         IEnumerable<string> ReadReleaseVersions();
         IList<IRelease> ReadReleases();
         IList<IDeployment> ReadDeployments();
-        //ToDo: to complete later
-        //ReadRelease(string id)
+        IRelease ReadRelease(string id);
         IDeployment ReadDeployment(string id); 
         IEnumerable<IDeploymentStep> ReadDeploymentSteps(string name);
         IConfiguration ReadConfiguration(string id);

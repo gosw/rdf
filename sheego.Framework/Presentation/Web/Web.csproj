@@ -146,6 +146,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\DeployEnvironment.cs" />
+    <Compile Include="Models\DeploymentStatus.cs" />
     <Compile Include="Models\DeploymentStepState.cs" />
     <Compile Include="Models\Deployment.cs" />
     <Compile Include="Models\DeploymentStep.cs" />
@@ -155,6 +157,8 @@
     <Compile Include="Models\ReleaseUnit.cs" />
     <Compile Include="Models\RunDeployment.cs" />
     <Compile Include="Models\Stakeholder.cs" />
+    <Compile Include="Models\VerficationMessage.cs" />
+    <Compile Include="Models\VerificationStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Converter.cs" />
   </ItemGroup>

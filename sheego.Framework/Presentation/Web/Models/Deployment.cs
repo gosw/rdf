@@ -22,12 +22,19 @@ namespace sheego.Framework.Presentation.Web.Models
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { set; get; }
 
+        public DeploymentStatus Status { set; get; }
+
         public string Environment { set; get; }
         
         public SelectList Environments { set; get; }
 
-        //public Dictionary<string, string> VerificationMessage { set; get; } //ToDo: to complete later
+        public List<VerificationMessage> VerificationMessages { set; get; }
 
         //public Stakeholder S { set; get; }
+
+        public Deployment()
+        {
+            VerificationMessages = new List<VerificationMessage>();
+        }
     }
 }

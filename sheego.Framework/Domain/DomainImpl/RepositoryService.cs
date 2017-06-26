@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using sheego.Framework.Domain.Shared;
-using sheego.Framework.Domain.Shared.Locator;
 using sheego.Framework.Data.Shared.Locator;
 using System.Linq;
 
@@ -80,7 +78,13 @@ namespace sheego.Framework.Domain.Impl
             return list;
         }
 
-        //ToDo: ReadRelease(id)
+        public IRelease ReadRelease(string id)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                return service.Object.Read<IRelease>(id);
+            }
+        }
 
         public IDeployment ReadDeployment(string id)
         {

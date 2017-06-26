@@ -79,6 +79,7 @@
                 {
                     <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
                     @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
+                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)
                 }
             </tr>
         }

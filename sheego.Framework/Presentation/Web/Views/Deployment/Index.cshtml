@@ -23,8 +23,12 @@
                 @Html.DisplayNameFor(model => model.DueDate)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Stakeholders)*@ <!--ToDo: to complete later-->
+                @Html.DisplayNameFor(model => model.Status)
             </th>
+            <th>
+                 @*@Html.DisplayNameFor(model => model.Stakeholders)*@ <!--ToDo: to complete later-->
+            </th>
+            <th></th>
         </tr>
 
         @foreach (var item in Model)
@@ -43,7 +47,10 @@
                     @Html.DisplayFor(modelItem => item.DueDate)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Stakeholders)*@
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                     @*@Html.DisplayFor(modelItem => item.Stakeholders)*@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { name = item.Name }) |
@@ -52,7 +59,6 @@
                 </td>
             </tr>
         }
-
     </table>
 }
 

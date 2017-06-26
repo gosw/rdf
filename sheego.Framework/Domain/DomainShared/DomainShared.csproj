@@ -55,6 +55,8 @@
     <Compile Include="IRelease.cs" />
     <Compile Include="IReleaseUnit.cs" />
     <Compile Include="IStakeholder.cs" />
+    <Compile Include="IVerficationMessage.cs" />
+    <Compile Include="IVerificationService.cs" />
     <Compile Include="Locator\DomainLocator.cs" />
     <Compile Include="IRepositoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
