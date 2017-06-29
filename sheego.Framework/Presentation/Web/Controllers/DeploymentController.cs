@@ -64,29 +64,29 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     }
                     break;
 
-                case "verify":
-                    using (var service = DomainLocator.GetVerificationService())
-                    {
-                        var converter = new Converter();
-                        using (var repoService = DomainLocator.GetRepositoryService())
-                        {
-                            deployment.ReleaseVersions = new SelectList(repoService.Object.ReadReleaseVersions());
-                            var configData = repoService.Object.ReadConfiguration("MainConfiguration");
-                            deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+                //case "verify":
+                //    using (var service = DomainLocator.GetVerificationService())
+                //    {
+                //        var converter = new Converter();
+                //        using (var repoService = DomainLocator.GetRepositoryService())
+                //        {
+                //            deployment.ReleaseVersions = new SelectList(repoService.Object.ReadReleaseVersions());
+                //            var configData = repoService.Object.ReadConfiguration("MainConfiguration");
+                //            deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
 
-                            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "allok");
-                            deployment.Status = DeploymentStatus.Verified;
-                            foreach (var message in verifiedMessages)
-                            {
-                                deployment.VerificationMessages.Add(converter.Convert(message));
-                                if (message.Status != BO.VerificationStatus.OK)
-                                {
-                                    deployment.Status = DeploymentStatus.Init;
-                                }
-                            }
-                        }
-                    }
-                    return View(deployment);
+                //            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "okwarn");
+                //            deployment.Status = DeploymentStatus.Verified;
+                //            foreach (var message in verifiedMessages)
+                //            {
+                //                deployment.VerificationMessages.Add(converter.Convert(message));
+                //                if (message.Status != BO.VerificationStatus.OK)
+                //                {
+                //                    deployment.Status = DeploymentStatus.Init;
+                //                }
+                //            }
+                //        }
+                //    }
+                //    return View(deployment);
             }
 
             using (var repoService = DomainLocator.GetRepositoryService())
@@ -165,7 +165,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
                             var configData = repoService.Object.ReadConfiguration("MainConfiguration");
                             deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
 
-                            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "okwarn");
+                            var verifiedMessages = service.Object.Verify(converter.Convert(deployment), "allok");
                             deployment.Status = DeploymentStatus.Verified;
                             foreach (var message in verifiedMessages)
                             {
@@ -262,9 +262,25 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 if (runDeployment.Deployment.Status == DeploymentStatus.Active)
                 {
                     var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                    foreach (var deploymentStep in deploymentSteps)
+                    if (deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Init
+                        && deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
                     {
-                        runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                        runDeployment.Deployment.Status = DeploymentStatus.Failed;
+                        foreach (var deploymentStep in deploymentSteps)
+                        {
+                            if (deploymentStep.StepState != Domain.Shared.DeploymentStepState.Failed)
+                                runDeployment.Deployment.Status = DeploymentStatus.Successful;
+                            
+                        }
+                        service.Object.CreateDeployment(converter.Convert(runDeployment.Deployment));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var deploymentStep in deploymentSteps)
+                        {
+                            runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                        }
                     }
                 }
             }
