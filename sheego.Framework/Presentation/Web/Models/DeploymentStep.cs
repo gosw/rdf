@@ -7,7 +7,7 @@ namespace sheego.Framework.Presentation.Web.Models
 {
     public class DeploymentStep
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
         public DeploymentStepState StepState { get; set; }
     }

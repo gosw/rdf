@@ -18,7 +18,12 @@ namespace sheego.Framework.Domain.Impl
             switch (option)
             {
                 case "allok":
-                    testList.Add(new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.OK });
+                    testList.AddRange(new List<VerificationMessage>
+                    {
+                        new VerificationMessage() { MessageContent = "Step list validation", Status = VerificationStatus.OK },
+                        new VerificationMessage() { MessageContent = "MasterBuild validation", Status = VerificationStatus.OK },
+                        new VerificationMessage() { MessageContent = "WorkItem validation", Status = VerificationStatus.OK }
+                    });
                     break;
 
                 case "okwarn":

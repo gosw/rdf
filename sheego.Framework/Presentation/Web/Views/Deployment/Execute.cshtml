@@ -84,7 +84,7 @@
     else
     {
         <p>
-            @Html.ActionLink("Start deployment", "RunExecute", "Deployment", new { name = Model.Deployment.Name, stepAction = "startdeployment", stepId = " " }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Start deployment", "RunExecute", "Deployment", new { name = Model.Deployment.Name, stepAction = "startdeployment", stepId = 0 }, new { @class = "btn btn-primary" })
         </p>
     }
 }

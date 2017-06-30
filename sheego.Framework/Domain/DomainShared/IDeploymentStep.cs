@@ -2,7 +2,7 @@
 {
     public interface IDeploymentStep
     {
-        string Id { get; set; }
+        int Id { get; set; }
         string Description { get; set; }
         DeploymentStepState StepState { get; set; }
     }

@@ -98,7 +98,7 @@ namespace sheego.Framework.Domain.Impl
         {
             using (var service = DataLocator.GetPersistenceService())
             {
-                var list = service.Object.List<IDeploymentStep>(deploymentName).ToList();
+                var list = service.Object.List<IDeploymentStep>(deploymentName).OrderBy(s => s.Id).ToList();
                 //Activate next Step
                 //ToDo: create separate service for StepState control
                 for(var i = 0;i < list.Count;i++)

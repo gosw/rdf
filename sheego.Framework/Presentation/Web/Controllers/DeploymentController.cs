@@ -18,7 +18,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             using (var service = DomainLocator.GetRepositoryService())
             {
                 var deployments = service.Object.ReadDeployments();
-                foreach (var deploymentBO in deployments)
+                foreach (var deploymentBO in deployments.OrderBy(s => s.DueDate))
                 {
                     var converter = new Converter();
                     indexDeploymentList.Add(converter.Convert(deploymentBO));
@@ -294,7 +294,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
 
         // GET: Deployments/RunExecute
         //[FrameworkAuthorization]
-        public ActionResult RunExecute(string name, string stepAction, string stepId)
+        public ActionResult RunExecute(string name, string stepAction, int stepId)
         {
             if (name == null)
             {
