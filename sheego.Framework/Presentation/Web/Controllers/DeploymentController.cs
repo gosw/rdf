@@ -18,7 +18,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             using (var service = DomainLocator.GetRepositoryService())
             {
                 var deployments = service.Object.ReadDeployments();
-                foreach (var deploymentBO in deployments.OrderBy(s => s.DueDate))
+                foreach (var deploymentBO in deployments)
                 {
                     var converter = new Converter();
                     indexDeploymentList.Add(converter.Convert(deploymentBO));
@@ -262,26 +262,35 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 if (runDeployment.Deployment.Status == DeploymentStatus.Active)
                 {
                     var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                    if (deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Init
-                        && deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
-                    {
-                        runDeployment.Deployment.Status = DeploymentStatus.Failed;
-                        foreach (var deploymentStep in deploymentSteps)
+                    //if (deploymentSteps.Any() && deploymentSteps != null)
+                    //{
+                        if (deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Init
+                            && deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
                         {
-                            if (deploymentStep.StepState != Domain.Shared.DeploymentStepState.Failed)
-                                runDeployment.Deployment.Status = DeploymentStatus.Successful;
-                            
+                            runDeployment.Deployment.Status = DeploymentStatus.Failed;
+                            foreach (var deploymentStep in deploymentSteps)
+                            {
+                                if (deploymentStep.StepState != Domain.Shared.DeploymentStepState.Failed)
+                                    runDeployment.Deployment.Status = DeploymentStatus.Successful;
+
+                            }
+                            service.Object.CreateDeployment(converter.Convert(runDeployment.Deployment));
+                            return RedirectToAction("Index");
                         }
-                        service.Object.CreateDeployment(converter.Convert(runDeployment.Deployment));
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        foreach (var deploymentStep in deploymentSteps)
+                        else
                         {
-                            runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                            foreach (var deploymentStep in deploymentSteps)
+                            {
+                                runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
+                            }
                         }
-                    }
+                    //}
+                    //else
+                    //{
+                    //    deploymentSteps.ToList().Add(
+                    //        converter.Convert(new DeploymentStep() { Id = 1, Description = "No steps available", StepState = DeploymentStepState.Failed })
+                    //        );
+                    //}
                 }
             }
 

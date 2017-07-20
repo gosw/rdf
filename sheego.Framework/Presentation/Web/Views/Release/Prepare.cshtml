@@ -62,25 +62,34 @@
 
     <!-- List of releaseunits -->
     <table class="table">
-        <tr>
-            <th>Release Unit List</th>
-            @for (var i = 0; i < Model.Release.UnitList[0].StakeholderList.Count; i++)
-            {<!-- ToDo: Exceptionally using stakeholders list directly from Release object which may be not so bad of an idea anyway -->
-                <th style="text-align:center">@Model.Release.UnitList[0].StakeholderList[i].Name</th>
-                @*@Html.HiddenFor(model => model.Release.UnitList[0].StakeholderList[i].Name)*@
-            }
-        </tr>
-        @for (var j = 0; j < Model.Release.UnitList.Count; j++)
+        @if (Model.Release.UnitList.Any())
         {
             <tr>
-                <td>@Html.DisplayFor(model => model.Release.UnitList[j].Name)</td>
-                @Html.HiddenFor(model => model.Release.UnitList[j].Name)
-                @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
-                {
-                    <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
-                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
-                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)
+                <th>Release Unit List</th>
+                @for (var i = 0; i < Model.Release.UnitList[0].StakeholderList.Count; i++)
+                {<!-- ToDo: Exceptionally using stakeholders list directly from Release object which may be not so bad of an idea anyway -->
+                    <th style="text-align:center">@Model.Release.UnitList[0].StakeholderList[i].Name</th>
+                    @*@Html.HiddenFor(model => model.Release.UnitList[0].StakeholderList[i].Name)*@
                 }
+            </tr>
+            for (var j = 0; j < Model.Release.UnitList.Count; j++)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => model.Release.UnitList[j].Name)</td>
+                    @Html.HiddenFor(model => model.Release.UnitList[j].Name)
+                    @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
+                    {
+                        <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                        @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
+                        @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <th>No Release Units to display</th>
             </tr>
         }
     </table>
