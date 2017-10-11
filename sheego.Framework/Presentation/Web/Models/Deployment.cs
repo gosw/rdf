@@ -30,11 +30,13 @@ namespace sheego.Framework.Presentation.Web.Models
 
         public List<VerificationMessage> VerificationMessages { set; get; }
 
-        //public Stakeholder S { set; get; }
+        [Display(Name = "Participants")]
+        public List<Stakeholder> StakeholderList { set; get; }
 
         public Deployment()
         {
             VerificationMessages = new List<VerificationMessage>();
+            StakeholderList = new List<Stakeholder>();
         }
     }
 }

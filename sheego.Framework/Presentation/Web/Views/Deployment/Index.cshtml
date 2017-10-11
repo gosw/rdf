@@ -14,6 +14,9 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Environment)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ReleaseVersion)
             </th>
             <th>
@@ -36,6 +39,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Environment)
                 </td>
                 <td>
                     @Html.DisplayFor(model => item.ReleaseVersion)

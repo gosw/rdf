@@ -7,7 +7,6 @@ namespace sheego.Framework.Presentation.Web.Models
     {
         public string Name { get; set; }
 
-        [Display(Name = "Participants")]
         public List<Stakeholder> StakeholderList { get; set; }
 
         public ReleaseUnit()

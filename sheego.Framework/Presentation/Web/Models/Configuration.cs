@@ -11,7 +11,7 @@ namespace sheego.Framework.Presentation.Web.Models
         public Configuration()
         {
             Stakeholders = new List<Stakeholder>();
-            DeployEnvironments = new List<string>();
+            DeployEnvironments = new List<string>(); //ToDo: Convert string to Object DeployEnvironments
         }
     }
 }

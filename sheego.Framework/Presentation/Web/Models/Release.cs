@@ -18,12 +18,13 @@ namespace sheego.Framework.Presentation.Web.Models
 
         public List<ReleaseUnit> UnitList { get; set; }
 
-        //public List<Stakeholder> StakeholderList { set; get; } //Only stakeholders assigned to this release object
+        [Display(Name = "Participants")]
+        public List<Stakeholder> StakeholderList { set; get; } //Only stakeholders assigned to this release object
 
         public Release()
         {
             UnitList = new List<ReleaseUnit>();
-            //StakeholderList = new List<Stakeholder>();
+            StakeholderList = new List<Stakeholder>();
         }
     }
 }

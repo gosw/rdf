@@ -80,6 +80,10 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     }
                     break;
 
+                case "deletereleaseunit":
+                    //ToDo: Complete view and logic
+                    break;
+                
                 //case "confirmrelease":
                 //    //ToDo: Add field Status in Deployment and set Status here
                 //    break;
@@ -154,6 +158,10 @@ namespace sheego.Framework.Presentation.Web.Controllers
                             return RedirectToAction("Index");
                         }
                     }
+                    break;
+
+                case "deletereleaseunit":
+                    //ToDo: Complete view and logic
                     break;
 
                 //case "confirmrelease":

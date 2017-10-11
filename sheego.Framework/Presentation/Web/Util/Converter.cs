@@ -3,6 +3,7 @@ using WEB = sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Domain.Shared;
 using sheego.Framework.Domain.Shared.Locator;
 using sheego.Framework.Presentation.Web.Models;
+using System.Collections.Generic;
 
 namespace sheego.Framework.Presentation.Web.Util
 {
@@ -96,6 +97,7 @@ namespace sheego.Framework.Presentation.Web.Util
                 convertedDeploymentStep.Object.Id = deploymentStep.Id;
                 convertedDeploymentStep.Object.Description = deploymentStep.Description;
                 convertedDeploymentStep.Object.StepState = (BO.DeploymentStepState)deploymentStep.StepState;
+                convertedDeploymentStep.Object.Comment = deploymentStep.Comment;
                 return convertedDeploymentStep.Object;
             }
         }
@@ -106,6 +108,7 @@ namespace sheego.Framework.Presentation.Web.Util
             convertedDeploymentStep.Id = deploymentStepBO.Id;
             convertedDeploymentStep.Description = deploymentStepBO.Description;
             convertedDeploymentStep.StepState = (WEB.DeploymentStepState)deploymentStepBO.StepState;
+            convertedDeploymentStep.Comment = deploymentStepBO.Comment;
             return convertedDeploymentStep;
         }
 
@@ -190,5 +193,10 @@ namespace sheego.Framework.Presentation.Web.Util
         }
 
         #endregion VerificationMessage
+
+        public string ConvertListToString<T>(IList<T> list)
+        {
+            return string.Join("|", list);
+        }
     }
 }
