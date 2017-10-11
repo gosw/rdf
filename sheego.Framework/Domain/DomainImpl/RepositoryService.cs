@@ -47,7 +47,7 @@ namespace sheego.Framework.Domain.Impl
                     list.Add(id);
                 }
             }
-            return list;
+            return list.OrderBy(s => s).ToList();
         }
 
         public IList<IRelease> ReadReleases()
@@ -61,7 +61,7 @@ namespace sheego.Framework.Domain.Impl
                     list.Add(release);
                 }
             }
-            return list;
+            return list.OrderBy(s => s.DueDate).ToList();
         }
 
         public IList<IDeployment> ReadDeployments()
@@ -75,7 +75,7 @@ namespace sheego.Framework.Domain.Impl
                     list.Add(deployment);
                 }
             }
-            return list;
+            return list.OrderBy(s => s.DueDate).ToList();
         }
 
         public IRelease ReadRelease(string id)
