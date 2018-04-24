@@ -9,4 +9,4 @@ Technologies used:
 - .NET 4.5
 - ASP.NET MVC 5 | [ASP.NET MVC Getting Started](https://www.asp.net/mvc/overview/getting-started)
 - Castle Windsor | [Castle Windsor documentation on GitHub](https://github.com/castleproject/Windsor/tree/master/docs#castle-windsor-documentation)
-- Newtonsoft Json.NET | [Json.NET documentation](http://www.newtonsoft.com/json/help/html/Introduction.htm) change
+- Newtonsoft Json.NET | [Json.NET documentation](http://www.newtonsoft.com/json/help/html/Introduction.htm)
