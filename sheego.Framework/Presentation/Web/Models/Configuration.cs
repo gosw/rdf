@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sheego.Framework.Presentation.Web.Models
 {
@@ -8,10 +9,13 @@ namespace sheego.Framework.Presentation.Web.Models
 
         public List<string> DeployEnvironments { set; get; }
 
+        public List<string> InitFolders { get; set; }
+
         public Configuration()
         {
             Stakeholders = new List<Stakeholder>();
-            DeployEnvironments = new List<string>(); //ToDo: Convert string to Object DeployEnvironments
+            DeployEnvironments = new List<string>(); //ToDo: Convert string to Object DeployEnvironments in Web
+            InitFolders = new List<string>();
         }
     }
 }

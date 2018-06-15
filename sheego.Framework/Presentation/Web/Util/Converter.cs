@@ -129,6 +129,11 @@ namespace sheego.Framework.Presentation.Web.Util
                 {
                     convertedConfiguration.Object.DeployEnvironments.Add(environment);
                 }
+
+                foreach (var initFolder in configuration.InitFolders)
+                {
+                    convertedConfiguration.Object.DeployEnvironments.Add(initFolder);
+                }
                 return convertedConfiguration.Object;
             }
         }
@@ -141,9 +146,14 @@ namespace sheego.Framework.Presentation.Web.Util
                 convertedConfiguration.Stakeholders.Add(Convert(stakeholderBO));
             }
 
-            foreach (var environment in configurationBO.DeployEnvironments)
+            foreach (var environmentBO in configurationBO.DeployEnvironments)
             {
-                convertedConfiguration.DeployEnvironments.Add(environment);
+                convertedConfiguration.DeployEnvironments.Add(environmentBO);
+            }
+
+            foreach (var initFolderBO in configurationBO.InitFolders)
+            {
+                convertedConfiguration.DeployEnvironments.Add(initFolderBO);
             }
             return convertedConfiguration;
         }

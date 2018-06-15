@@ -8,6 +8,7 @@ namespace sheego.Framework.Domain.Shared
         void CreateRelease(IRelease release);
         void CreateDeployment(IDeployment deployment);
         void CreateDeploymentStep(string deploymentName, IDeploymentStep deploymentStep);
+        void CreateConfiguration(string id, IConfiguration configuration);
         IEnumerable<string> ReadReleaseVersions();
         IList<IRelease> ReadReleases();
         IList<IDeployment> ReadDeployments();

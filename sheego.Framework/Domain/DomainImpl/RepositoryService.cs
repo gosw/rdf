@@ -33,6 +33,14 @@ namespace sheego.Framework.Domain.Impl
             }
         }
 
+        public void CreateConfiguration(string id, IConfiguration configuration)
+        {
+            using (var service = DataLocator.GetPersistenceService())
+            {
+                service.Object.Create(id, configuration);
+            }
+        }
+
         #endregion Create
 
         #region Read

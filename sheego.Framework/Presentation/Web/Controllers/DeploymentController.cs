@@ -1,10 +1,12 @@
 ﻿using sheego.Framework.Domain.Shared.Locator;
 using BO = sheego.Framework.Domain.Shared;
+using WEB = sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Util;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System;
 
 namespace sheego.Framework.Presentation.Web.Controllers
 {
@@ -14,6 +16,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
         //[FrameworkAuthorization]
         public ActionResult Index()
         {
+            RunInitializeCheck();
             List<Deployment> indexDeploymentList = new List<Deployment>();
             using (var service = DomainLocator.GetRepositoryService())
             {
@@ -25,6 +28,40 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 }
             }
             return View(indexDeploymentList);
+        }
+
+        private void RunInitializeCheck()
+        {
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                var configuration = new WEB.Configuration();
+
+                /**
+                configuration.Stakeholders.AddRange(new List<Stakeholder>
+                {
+                    new Stakeholder() {Name ="ERP", isParticipating = false},
+                    new Stakeholder() {Name ="ESB", isParticipating = false},
+                    new Stakeholder() {Name ="DWH", isParticipating = false},
+                    new Stakeholder() {Name ="Webshop", isParticipating = false}
+                });
+                configuration.DeployEnvironments.AddRange(new List<string>
+                {
+                    "PRODUCTION",
+                    "PRE-PROD",
+                    "PROD-PERFORMANCE",
+                    "TEST",
+                    "DEVELOPMENT"
+                });
+                configuration.InitFolders.AddRange(new List<string>
+                {
+                    "IRelease",
+                    "IDeployment"
+                });
+                */
+
+                var converter = new Converter();
+                service.Object.CreateConfiguration("MainConfiguration", converter.Convert(configuration));
+            }
         }
 
         // GET: Deployments/Create
@@ -262,8 +299,8 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 if (runDeployment.Deployment.Status == DeploymentStatus.Active)
                 {
                     var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                    //if (deploymentSteps.Any() && deploymentSteps != null)
-                    //{
+                    if (deploymentSteps.Any() && deploymentSteps != null)
+                    {
                         if (deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Init
                             && deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
                         {
@@ -284,13 +321,19 @@ namespace sheego.Framework.Presentation.Web.Controllers
                                 runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
                             }
                         }
-                    //}
-                    //else
-                    //{
-                    //    deploymentSteps.ToList().Add(
-                    //        converter.Convert(new DeploymentStep() { Id = 1, Description = "No steps available", StepState = DeploymentStepState.Failed })
-                    //        );
-                    //}
+                    }
+                    else
+                    {
+                        runDeployment.DeploymentSteps.Add(
+                            new DeploymentStep()
+                            {
+                                Id = 1,
+                                Description = "No steps available",
+                                StepState = DeploymentStepState.Active
+                            }
+                        );
+                        
+                    }
                 }
             }
 

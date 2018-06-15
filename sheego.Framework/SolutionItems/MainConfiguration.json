@@ -1,0 +1,28 @@
+{
+	"Stakeholders": [{
+		"Name": "ERP",
+		"isParticipating": false
+	},
+	{
+		"Name": "ESB",
+		"isParticipating": false
+	},
+	{
+		"Name": "DWH",
+		"isParticipating": false
+	},
+	{
+		"Name": "Webshop",
+		"isParticipating": false
+	}],
+	"DeployEnvironments": ["PRODUCTION",
+	"PRE-PROD",
+	"PROD-PERFORMANCE",
+	"TEST",
+	"DEVELOPMENT"],
+	"InitFolders": ["IRelease",
+	"IDeployment",
+	"IConfiguration",
+	"IDeploymentStep",
+	"IEnvironment"]
+}

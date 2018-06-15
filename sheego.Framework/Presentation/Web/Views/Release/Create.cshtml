@@ -51,7 +51,7 @@
     <table class="table">
         <tr>
             <th>Release Unit List</th>
-            @for (var i = 0; i < Model.StakeholdersHeadline.Count; i++)
+            @for (var i = 0; i < (Model.StakeholdersHeadline != null ? Model.StakeholdersHeadline.Count : 0); i++)
             {
                 <th style="text-align:center">@Model.StakeholdersHeadline[i].Name</th>
                 @Html.HiddenFor(model => model.StakeholdersHeadline[i].Name)

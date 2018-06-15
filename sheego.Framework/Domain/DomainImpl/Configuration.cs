@@ -9,10 +9,13 @@ namespace sheego.Framework.Domain.Impl
 
         public IList<string> DeployEnvironments { set; get; }
 
+        public IList<string> InitFolders { get; set; }
+
         public Configuration()
         {
             Stakeholders = new List<IStakeholder>();
-            DeployEnvironments = new List<string>();
+            DeployEnvironments = new List<string>(); //ToDo: Convert string to Object DeployEnvironments in Impl
+            InitFolders = new List<string>();
         }
     }
 }

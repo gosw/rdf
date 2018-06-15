@@ -1,12 +1,14 @@
 ﻿using sheego.Framework.Domain.Shared.Locator;
+using BO = sheego.Framework.Domain.Shared;
+using WEB = sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Models;
 using sheego.Framework.Presentation.Web.Util;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System;
 
 namespace sheego.Framework.Presentation.Web.Controllers
 {
@@ -16,6 +18,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
         //[FrameworkAuthorization]
         public ActionResult Index()
         {
+            RunInitializeCheck();
             List<Release> indexReleaseList = new List<Release>();
             using (var service = DomainLocator.GetRepositoryService())
             {
@@ -27,6 +30,40 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 }
             }
             return View(indexReleaseList);
+        }
+
+        private void RunInitializeCheck()
+        {
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                var configuration = new WEB.Configuration();
+
+                /**
+                configuration.Stakeholders.AddRange(new List<Stakeholder>
+                {
+                    new Stakeholder() {Name ="ERP", isParticipating = false},
+                    new Stakeholder() {Name ="ESB", isParticipating = false},
+                    new Stakeholder() {Name ="DWH", isParticipating = false},
+                    new Stakeholder() {Name ="Webshop", isParticipating = false}
+                });
+                configuration.DeployEnvironments.AddRange(new List<string>
+                {
+                    "PRODUCTION",
+                    "PRE-PROD",
+                    "PROD-PERFORMANCE",
+                    "TEST",
+                    "DEVELOPMENT"
+                });
+                configuration.InitFolders.AddRange(new List<string>
+                {
+                    "IRelease",
+                    "IDeployment"
+                });
+                */
+
+                var converter = new Converter();
+                service.Object.CreateConfiguration("MainConfiguration", converter.Convert(configuration));
+            }
         }
 
         // GET: Releases/Create
@@ -57,7 +94,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 case "addreleaseunit":
                     var releaseUnit = new ReleaseUnit();
                     releaseUnit.Name = releaseCombined.newReleaseUnit;
-                    for (var i = 0; i < releaseCombined.StakeholdersHeadline.Count; i++)
+                    for (var i = 0; i < (releaseCombined.StakeholdersHeadline != null ? releaseCombined.StakeholdersHeadline.Count : 0); i++)
                     {
                         releaseUnit.StakeholderList.Add(new Stakeholder()
                         {
