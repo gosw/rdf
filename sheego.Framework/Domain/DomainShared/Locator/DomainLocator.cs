@@ -1,4 +1,5 @@
-﻿using sheego.Framework.Locator.Internal;
+﻿using System;
+using sheego.Framework.Locator.Internal;
 using sheego.Framework.Locator.Shared;
 
 namespace sheego.Framework.Domain.Shared.Locator
@@ -53,6 +54,11 @@ namespace sheego.Framework.Domain.Shared.Locator
         public static ILocatedObject<IVerificationMessage> GetVerificationMessage()
         {
             return ContainerHolder.Resolve<IVerificationMessage>();
+        }
+
+        public static ILocatedObject<IReleaseElement> GetReleaseElement()
+        {
+            return ContainerHolder.Resolve<IReleaseElement>();
         }
     }
 }

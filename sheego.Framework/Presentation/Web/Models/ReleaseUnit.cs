@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace sheego.Framework.Presentation.Web.Models
 {
@@ -9,10 +8,13 @@ namespace sheego.Framework.Presentation.Web.Models
 
         public List<Stakeholder> StakeholderList { get; set; }
 
+        public List<ReleaseElement> ReleaseElementsList { get; set; }
+
         public ReleaseUnit()
         {
             Name = "";
             StakeholderList = new List<Stakeholder>();
+            ReleaseElementsList = new List<ReleaseElement>();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System;
+using System.Linq;
 
 namespace sheego.Framework.Presentation.Web.Controllers
 {
@@ -37,30 +38,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
             using (var service = DomainLocator.GetRepositoryService())
             {
                 var configuration = new WEB.Configuration();
-
-                /**
-                configuration.Stakeholders.AddRange(new List<Stakeholder>
-                {
-                    new Stakeholder() {Name ="ERP", isParticipating = false},
-                    new Stakeholder() {Name ="ESB", isParticipating = false},
-                    new Stakeholder() {Name ="DWH", isParticipating = false},
-                    new Stakeholder() {Name ="Webshop", isParticipating = false}
-                });
-                configuration.DeployEnvironments.AddRange(new List<string>
-                {
-                    "PRODUCTION",
-                    "PRE-PROD",
-                    "PROD-PERFORMANCE",
-                    "TEST",
-                    "DEVELOPMENT"
-                });
-                configuration.InitFolders.AddRange(new List<string>
-                {
-                    "IRelease",
-                    "IDeployment"
-                });
-                */
-
                 var converter = new Converter();
                 service.Object.CreateConfiguration("MainConfiguration", converter.Convert(configuration));
             }
@@ -120,10 +97,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 case "deletereleaseunit":
                     //ToDo: Complete view and logic
                     break;
-                
-                //case "confirmrelease":
-                //    //ToDo: Add field Status in Deployment and set Status here
-                //    break;
             }
             return View(releaseCombined);
         }
@@ -152,6 +125,15 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     if (releaseBO.Version == version)
                     {
                         releaseCombined.Release = converter.Convert(releaseBO);
+                        foreach (var releaseUnit in releaseCombined.Release.UnitList)
+                        {
+                            foreach (var headline in releaseCombined.StakeholdersHeadline)
+                            {
+                                if (releaseUnit.StakeholderList.Count(x => x.Name == headline.Name) > 0)
+                                    continue;
+                                releaseUnit.StakeholderList.Add(headline); //ToDo: delete stakeholder in a release unit if not present in config
+                            }
+                        }
                     }
                 }
             }
@@ -174,15 +156,22 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 case "addreleaseunit":
                     var releaseUnit = new ReleaseUnit();
                     releaseUnit.Name = releaseCombined.newReleaseUnit;
-                    for (var i = 0; i < releaseCombined.StakeholdersHeadline.Count; i++)
+                    using (var service = DomainLocator.GetRepositoryService())
                     {
-                        releaseUnit.StakeholderList.Add(new Stakeholder()
+                        var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
+                        var converter = new Converter();
+                        releaseCombined.StakeholdersHeadline = converter.Convert(configData).Stakeholders;
+
+                        for (var i = 0; i < releaseCombined.StakeholdersHeadline.Count; i++)
                         {
-                            Name = releaseCombined.StakeholdersHeadline[i].Name,
-                            isParticipating = false
-                        });
+                            releaseUnit.StakeholderList.Add(new Stakeholder()
+                            {
+                                Name = releaseCombined.StakeholdersHeadline[i].Name,
+                                isParticipating = false
+                            });
+                        }
+                        releaseCombined.Release.UnitList.Add(releaseUnit);
                     }
-                    releaseCombined.Release.UnitList.Add(releaseUnit);
                     break;
 
                 case "save":
@@ -200,10 +189,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 case "deletereleaseunit":
                     //ToDo: Complete view and logic
                     break;
-
-                //case "confirmrelease":
-                //    //ToDo: Add field Status in Deployment and set Status here
-                //    break;
             }
             return View(releaseCombined);
         }
@@ -233,6 +218,15 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     if (releaseBO.Version == version)
                     {
                         releaseCombined.Release = converter.Convert(releaseBO);
+                        foreach (var releaseUnit in releaseCombined.Release.UnitList)
+                        {
+                            foreach (var headline in releaseCombined.StakeholdersHeadline)
+                            {
+                                if (releaseUnit.StakeholderList.Count(x => x.Name == headline.Name) > 0)
+                                    continue;
+                                releaseUnit.StakeholderList.Add(headline);
+                            }
+                        }
                     }
                 }
             }
@@ -276,18 +270,42 @@ namespace sheego.Framework.Presentation.Web.Controllers
             ReleasePrepared releasePrepared = null;
             using (var service = DomainLocator.GetRepositoryService())
             {
+                releasePrepared = new ReleasePrepared();
+                var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
+                var converter = new Converter();
+                releasePrepared.StakeholdersHeadline = converter.Convert(configData).Stakeholders;
+
                 //ToDo: Change to ReadReleaseVersions() and then Read() one Release
-                var releases = service.Object.ReadReleases(); 
+                var releases = service.Object.ReadReleases();
                 foreach (var releaseBO in releases)
                 {
                     if (releaseBO.Version == version)
                     {
-                        var converter = new Converter();
-                        releasePrepared = new ReleasePrepared();
                         releasePrepared.Release = converter.Convert(releaseBO);
+                        foreach (var releaseUnit in releasePrepared.Release.UnitList)
+                        {
+                            foreach (var headline in releasePrepared.StakeholdersHeadline)
+                            {
+                                if (releaseUnit.StakeholderList.Count(x => x.Name == headline.Name) > 0)
+                                    continue;
+                                releaseUnit.StakeholderList.Add(headline);
+                            }
+                        }
                     }
                 }
             }
+
+            List<string> participatingStakeholdersUnits = new List<string>();
+            foreach (var releaseUnit in releasePrepared.Release.UnitList)
+            {
+                foreach (var stakeholder in releaseUnit.StakeholderList)
+                {
+                    if (stakeholder.isParticipating == false)
+                        continue;
+                    participatingStakeholdersUnits.Add(string.Format("{0}~{1}~", releaseUnit.Name, stakeholder.Name));
+                }
+            }
+            releasePrepared.releaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
 
             if (releasePrepared == null)
             {
@@ -300,21 +318,30 @@ namespace sheego.Framework.Presentation.Web.Controllers
         [HttpPost]
         //[FrameworkAuthorization]
         //[ValidateAntiForgeryToken]
-        public ActionResult Prepare(ReleasePrepared releasePrepared, string action, HttpPostedFileBase file)
+        public ActionResult Prepare(ReleasePrepared releasePrepared, string action)
         {
             switch (action)
             {
                 case "addreleaseelement":
                     //ToDo: Add list of Release Elements in Domain.Release and add Release Elements here
-                    //releasePrepared.Release.ElementList.Add(new ReleaseElement() { Element = releasePrepared.newReleaseElement });
+                    var releaseElement = new ReleaseElement();
+                    releaseElement.SelectListPrefix = releasePrepared.releaseElementOption;
+                    releaseElement.Content = releasePrepared.newReleaseElement;
+                    releasePrepared.Release.UnitList.FirstOrDefault(
+                        x => x.Name == releasePrepared.releaseElementOption.Split('~')[0]).ReleaseElementsList.Add(releaseElement);
 
-                    //Temp: Add path of the uploaded file to display it here
-                    string fileName = Path.GetFileName(releasePrepared.newReleaseElement.FileName);
-                    string filePath = Path.Combine(ConfigurationManager.AppSettings["RootPath"], "Attachment", fileName);
-                    releasePrepared.newReleaseElement.SaveAs(filePath); //Overwrite file if already exists
-
-                    //Clear form
-                    //releasePrepared.newReleaseElement = ""; //ToDo: is not empty
+                    //Create SelectList anew
+                    List<string> participatingStakeholdersUnits = new List<string>();
+                    foreach (var releaseUnit in releasePrepared.Release.UnitList)
+                    {
+                        foreach (var stakeholder in releaseUnit.StakeholderList)
+                        {
+                            if (stakeholder.isParticipating == false)
+                                continue;
+                            participatingStakeholdersUnits.Add(string.Format("{0}~{1}~", releaseUnit.Name, stakeholder.Name));
+                        }
+                    }
+                    releasePrepared.releaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
                     break;
 
                 case "save":

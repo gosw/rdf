@@ -59,6 +59,7 @@
     <Compile Include="IVerificationService.cs" />
     <Compile Include="Locator\DomainLocator.cs" />
     <Compile Include="IRepositoryService.cs" />
+    <Compile Include="IReleaseElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

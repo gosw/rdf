@@ -20,17 +20,24 @@ namespace sheego.Framework.Presentation.Web.Util
                 convertedRelease.Object.DueDate = release.DueDate;
                 foreach (var releaseUnit in release.UnitList)
                 {
-                    using (var convertedReleaseunit = DomainLocator.GetReleaseUnit())
+                    using (var convertedReleaseUnit = DomainLocator.GetReleaseUnit())
                     {
-                        convertedReleaseunit.Object.Name = releaseUnit.Name;
+                        convertedReleaseUnit.Object.Name = releaseUnit.Name;
                         foreach(var stakeholder in releaseUnit.StakeholderList)
                         {
                             using(var convertedStakeholder = DomainLocator.GetStakeholder())
                             {
-                                convertedReleaseunit.Object.StakeholderList.Add(Convert(stakeholder));
+                                convertedReleaseUnit.Object.StakeholderList.Add(Convert(stakeholder));
                             }
                         }
-                        convertedRelease.Object.UnitList.Add(convertedReleaseunit.Object);
+                        foreach (var releaseElement in releaseUnit.ReleaseElementsList)
+                        {
+                            using (var convertedReleaseElement = DomainLocator.GetReleaseElement())
+                            {
+                                convertedReleaseUnit.Object.ReleaseElementList.Add(Convert(releaseElement));
+                            }
+                        }
+                        convertedRelease.Object.UnitList.Add(convertedReleaseUnit.Object);
                     }
                 }
                 return convertedRelease.Object;
@@ -51,10 +58,33 @@ namespace sheego.Framework.Presentation.Web.Util
                 {
                     convertedReleaseUnit.StakeholderList.Add(Convert(stakeholderBO));
                 }
+                foreach (var releaseElementBO in releaseunitBO.ReleaseElementList)
+                {
+                    convertedReleaseUnit.ReleaseElementsList.Add(Convert(releaseElementBO));
+                }
                 convertedRelease.UnitList.Add(convertedReleaseUnit);
             }
             return convertedRelease;
         }
+
+        //public Release Convert(IRelease releaseBO, List<Stakeholder> stakeholderWEB)
+        //{
+        //    var convertedRelease = new Release();
+        //    convertedRelease.Version = releaseBO.Version;
+        //    convertedRelease.Description = releaseBO.Description;
+        //    convertedRelease.DueDate = releaseBO.DueDate;
+        //    foreach (var releaseunitBO in releaseBO.UnitList)
+        //    {
+        //        var convertedReleaseUnit = new ReleaseUnit();
+        //        convertedReleaseUnit.Name = releaseunitBO.Name;
+        //        foreach (var stakeholderBO in releaseunitBO.StakeholderList)
+        //        {
+        //            convertedReleaseUnit.StakeholderList.Add(Convert(stakeholderBO));
+        //        }
+        //        convertedRelease.UnitList.Add(convertedReleaseUnit);
+        //    }
+        //    return convertedRelease;
+        //}
 
         #endregion Release
 
@@ -181,6 +211,28 @@ namespace sheego.Framework.Presentation.Web.Util
         }
 
         #endregion Stakeholder
+
+        #region ReleaseElement
+
+        public IReleaseElement Convert(ReleaseElement releaseElement)
+        {
+            using (var convertedReleaseElement = DomainLocator.GetReleaseElement())
+            {
+                convertedReleaseElement.Object.SelectListPrefix = releaseElement.SelectListPrefix;
+                convertedReleaseElement.Object.Content = releaseElement.Content;
+                return convertedReleaseElement.Object;
+            }
+        }
+
+        public ReleaseElement Convert(IReleaseElement releaseElementBO)
+        {
+            var convertedReleaseElement = new ReleaseElement();
+            convertedReleaseElement.SelectListPrefix = releaseElementBO.SelectListPrefix;
+            convertedReleaseElement.Content = releaseElementBO.Content;
+            return convertedReleaseElement;
+        }
+
+        #endregion ReleaseElement
 
         #region VerificationMessage
 

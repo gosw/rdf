@@ -154,6 +154,7 @@
     <Compile Include="Models\DeploymentStep.cs" />
     <Compile Include="Models\Release.cs" />
     <Compile Include="Models\ReleaseCombined.cs" />
+    <Compile Include="Models\ReleaseElement.cs" />
     <Compile Include="Models\ReleasePrepared.cs" />
     <Compile Include="Models\ReleaseUnit.cs" />
     <Compile Include="Models\RunDeployment.cs" />

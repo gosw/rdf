@@ -1,5 +1,6 @@
 ﻿using sheego.Framework.Domain.Shared;
 using System.Collections.Generic;
+using System;
 
 namespace sheego.Framework.Domain.Impl
 {
@@ -9,9 +10,12 @@ namespace sheego.Framework.Domain.Impl
 
         public IList<IStakeholder> StakeholderList { get; set; }
 
+        public IList<IReleaseElement> ReleaseElementList { get; set; }
+
         public ReleaseUnit()
         {
             StakeholderList = new List<IStakeholder>();
+            ReleaseElementList = new List<IReleaseElement>();
         }
     }
 }

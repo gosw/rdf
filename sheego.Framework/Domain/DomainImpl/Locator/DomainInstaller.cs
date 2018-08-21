@@ -58,6 +58,11 @@ namespace sheego.Framework.Domain.Impl.Locator
                 Component.For<IVerificationMessage>()
                 .ImplementedBy<VerificationMessage>()
                 .LifestyleTransient());
+
+            container.Register(
+                Component.For<IReleaseElement>()
+                .ImplementedBy<ReleaseElement>()
+                .LifestyleTransient());
         }
     }
 }
