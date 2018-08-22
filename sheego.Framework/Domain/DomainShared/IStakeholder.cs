@@ -3,6 +3,6 @@
     public interface IStakeholder
     {
         string Name { get; set; }
-        bool isParticipating { get; set; }
+        bool IsParticipating { get; set; }
     }
 }

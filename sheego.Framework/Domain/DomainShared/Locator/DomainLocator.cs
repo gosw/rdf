@@ -1,5 +1,4 @@
-﻿using System;
-using sheego.Framework.Locator.Internal;
+﻿using sheego.Framework.Locator.Internal;
 using sheego.Framework.Locator.Shared;
 
 namespace sheego.Framework.Domain.Shared.Locator

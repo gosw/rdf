@@ -35,30 +35,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
             using (var service = DomainLocator.GetRepositoryService())
             {
                 var configuration = new WEB.Configuration();
-
-                /**
-                configuration.Stakeholders.AddRange(new List<Stakeholder>
-                {
-                    new Stakeholder() {Name ="ERP", isParticipating = false},
-                    new Stakeholder() {Name ="ESB", isParticipating = false},
-                    new Stakeholder() {Name ="DWH", isParticipating = false},
-                    new Stakeholder() {Name ="Webshop", isParticipating = false}
-                });
-                configuration.DeployEnvironments.AddRange(new List<string>
-                {
-                    "PRODUCTION",
-                    "PRE-PROD",
-                    "PROD-PERFORMANCE",
-                    "TEST",
-                    "DEVELOPMENT"
-                });
-                configuration.InitFolders.AddRange(new List<string>
-                {
-                    "IRelease",
-                    "IDeployment"
-                });
-                */
-
                 var converter = new Converter();
                 service.Object.CreateConfiguration("MainConfiguration", converter.Convert(configuration));
             }
@@ -207,7 +183,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
                             foreach (var message in verifiedMessages)
                             {
                                 deployment.VerificationMessages.Add(converter.Convert(message));
-                                if (message.Status != BO.VerificationStatus.OK)
+                                if (message.Status != BO.VerificationStatus.Ok)
                                 {
                                     deployment.Status = DeploymentStatus.Init;
                                 }

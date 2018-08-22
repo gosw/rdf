@@ -1,6 +1,5 @@
 ﻿using sheego.Framework.Domain.Shared;
 using System.Collections.Generic;
-using System;
 
 namespace sheego.Framework.Domain.Impl
 {

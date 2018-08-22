@@ -7,8 +7,10 @@ namespace sheego.Framework.Domain.Impl
     {
         public IList<IVerificationMessage> Verify(IDeployment deployment)
         {
-            var testList = new List<IVerificationMessage>();
-            testList.Add(new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.OK });
+            var testList = new List<IVerificationMessage>
+            {
+                new VerificationMessage() {MessageContent = "Testing Message", Status = VerificationStatus.Ok}
+            };
             return testList;
         }
         
@@ -20,16 +22,16 @@ namespace sheego.Framework.Domain.Impl
                 case "allok":
                     testList.AddRange(new List<VerificationMessage>
                     {
-                        new VerificationMessage() { MessageContent = "Step list validation", Status = VerificationStatus.OK },
-                        new VerificationMessage() { MessageContent = "MasterBuild validation", Status = VerificationStatus.OK },
-                        new VerificationMessage() { MessageContent = "WorkItem validation", Status = VerificationStatus.OK }
+                        new VerificationMessage() { MessageContent = "Step list validation", Status = VerificationStatus.Ok },
+                        new VerificationMessage() { MessageContent = "MasterBuild validation", Status = VerificationStatus.Ok },
+                        new VerificationMessage() { MessageContent = "WorkItem validation", Status = VerificationStatus.Ok }
                     });
                     break;
 
                 case "okwarn":
                     testList.AddRange(new List<VerificationMessage>
                     {
-                        new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.OK },
+                        new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.Ok },
                         new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.Warning }
                     });
                     break;
@@ -37,7 +39,7 @@ namespace sheego.Framework.Domain.Impl
                 case "okfail":
                     testList.AddRange(new List<VerificationMessage>
                     {
-                        new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.OK },
+                        new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.Ok },
                         new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.Failed }
                     });
                     break;
@@ -51,7 +53,7 @@ namespace sheego.Framework.Domain.Impl
                     break;
 
                 default:
-                    testList.Add(new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.OK });
+                    testList.Add(new VerificationMessage() { MessageContent = "Testing Message", Status = VerificationStatus.Ok });
                     break;
             }
             return testList;

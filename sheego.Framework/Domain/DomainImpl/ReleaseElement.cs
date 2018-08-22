@@ -1,5 +1,4 @@
-﻿using System;
-using sheego.Framework.Domain.Shared;
+﻿using sheego.Framework.Domain.Shared;
 
 namespace sheego.Framework.Domain.Impl
 {

@@ -197,7 +197,7 @@ namespace sheego.Framework.Presentation.Web.Util
             using (var convertedStakeholder = DomainLocator.GetStakeholder())
             {
                 convertedStakeholder.Object.Name = stakeholder.Name;
-                convertedStakeholder.Object.isParticipating = stakeholder.isParticipating;
+                convertedStakeholder.Object.IsParticipating = stakeholder.isParticipating;
                 return convertedStakeholder.Object;
             }
         }
@@ -206,7 +206,7 @@ namespace sheego.Framework.Presentation.Web.Util
         {
             var convertedStakeholder = new Stakeholder();
             convertedStakeholder.Name = stakeholderBO.Name;
-            convertedStakeholder.isParticipating = stakeholderBO.isParticipating;
+            convertedStakeholder.isParticipating = stakeholderBO.IsParticipating;
             return convertedStakeholder;
         }
 

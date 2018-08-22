@@ -6,6 +6,6 @@ namespace sheego.Framework.Domain.Impl
     {
         public string Name { get; set; }
 
-        public bool isParticipating { get; set; }
+        public bool IsParticipating { get; set; }
     }
 }

@@ -109,14 +109,14 @@ namespace sheego.Framework.Domain.Impl
                 var list = service.Object.List<IDeploymentStep>(deploymentName).OrderBy(s => s.Id).ToList();
                 //Activate next Step
                 //ToDo: create separate service for StepState control
-                for(var i = 0;i < list.Count;i++)
+                foreach (var deploymentStep in list)
                 {
-                    if (list[i].StepState == DeploymentStepState.Active)
+                    if (deploymentStep.StepState == DeploymentStepState.Active)
                         break;
 
-                    if (list[i].StepState == DeploymentStepState.Init)
+                    if (deploymentStep.StepState == DeploymentStepState.Init)
                     {
-                        list[i].StepState = DeploymentStepState.Active;
+                        deploymentStep.StepState = DeploymentStepState.Active;
                         break;
                     }
                 }
