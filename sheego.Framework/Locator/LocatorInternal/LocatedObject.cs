@@ -1,14 +1,11 @@
 ﻿using sheego.Framework.Locator.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sheego.Framework.Locator.Internal
 {
     class LocatedObject<T> : ILocatedObject<T> where T : class
     {
+        // ReSharper disable once RedundantDefaultMemberInitializer
         private bool _disposed = false;
         private T _object;
 

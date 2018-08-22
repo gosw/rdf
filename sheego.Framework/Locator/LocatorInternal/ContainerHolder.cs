@@ -3,10 +3,6 @@ using Castle.Windsor;
 using Castle.Windsor.Installer;
 using sheego.Framework.Locator.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sheego.Framework.Locator.Internal
 {
