@@ -2,9 +2,6 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using sheego.Framework.Data.Shared;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace sheego.Framework.Data.Impl.Locator
 {

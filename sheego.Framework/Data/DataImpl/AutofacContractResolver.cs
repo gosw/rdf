@@ -6,9 +6,10 @@ namespace sheego.Framework.Data.Impl
 {
     internal class AutofacContractResolver : DefaultContractResolver
     {
-        public AutofacContractResolver()
-        {
-        }
+        // ReSharper disable once EmptyConstructor
+        //public AutofacContractResolver()
+        //{
+        //}
 
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {

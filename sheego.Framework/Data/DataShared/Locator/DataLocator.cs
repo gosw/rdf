@@ -1,8 +1,6 @@
 ﻿using sheego.Framework.Locator.Internal;
 using sheego.Framework.Locator.Shared;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace sheego.Framework.Data.Shared.Locator
 {

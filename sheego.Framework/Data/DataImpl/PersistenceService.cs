@@ -2,6 +2,7 @@
 using sheego.Framework.Data.Shared;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace sheego.Framework.Data.Impl
 {
@@ -57,7 +58,7 @@ namespace sheego.Framework.Data.Impl
             {
                 list = Directory.GetFiles((string)configurationService.GetFilesPath(typeof(T).Name), "*.json");
             }
-            catch (System.IO.DirectoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
                 configurationService.GetFilesPath(typeof(T).Name);
             }
@@ -73,14 +74,8 @@ namespace sheego.Framework.Data.Impl
             var objList = new List<T>();
             IConfigurationService configurationService = new ConfigurationService();
             //var path = configurationService.GetFilesPath(typeof(T).Name);
-            string[] list = new string[] { };
-            list = Directory.GetFiles((string)configurationService.GetFilesPath(typeof(T).Name), filter + "*.json");
-            foreach (var id in list)
-            {
-                var obj = Read<T>(Path.GetFileNameWithoutExtension(id));
-                objList.Add(obj);
-            }
-            return objList;
+            var list = Directory.GetFiles((string)configurationService.GetFilesPath(typeof(T).Name), filter + "*.json");
+            return list.Select(id => Read<T>(Path.GetFileNameWithoutExtension(id))).ToList();
         }
     }
 }

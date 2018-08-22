@@ -1,5 +1,4 @@
-﻿using System;
-using sheego.Framework.Data.Shared;
+﻿using sheego.Framework.Data.Shared;
 using System.Configuration;
 using System.IO;
 
@@ -37,7 +36,6 @@ namespace sheego.Framework.Data.Impl
             {
                 Directory.CreateDirectory(string.Format(@"{0}\{1}", rootPath, objectType));
             }
-            return;
         }
     }
 }
