@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace Web
+namespace sheego.Framework.Presentation.Web
 {
     public class FilterConfig
     {
