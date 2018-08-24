@@ -25,17 +25,11 @@ namespace sheego.Framework.Presentation.Web.Util
                         convertedReleaseUnit.Object.Name = releaseUnit.Name;
                         foreach(var stakeholder in releaseUnit.StakeholderList)
                         {
-                            using(var convertedStakeholder = DomainLocator.GetStakeholder())
-                            {
-                                convertedReleaseUnit.Object.StakeholderList.Add(Convert(stakeholder));
-                            }
+                            convertedReleaseUnit.Object.StakeholderList.Add(Convert(stakeholder));
                         }
                         foreach (var releaseElement in releaseUnit.ReleaseElementsList)
                         {
-                            using (var convertedReleaseElement = DomainLocator.GetReleaseElement())
-                            {
-                                convertedReleaseUnit.Object.ReleaseElementList.Add(Convert(releaseElement));
-                            }
+                            convertedReleaseUnit.Object.ReleaseElementList.Add(Convert(releaseElement));
                         }
                         convertedRelease.Object.UnitList.Add(convertedReleaseUnit.Object);
                     }
@@ -46,14 +40,15 @@ namespace sheego.Framework.Presentation.Web.Util
 
         public Release Convert(IRelease releaseBO)
         {
-            var convertedRelease = new Release();
-            convertedRelease.Version = releaseBO.Version;
-            convertedRelease.Description = releaseBO.Description;
-            convertedRelease.DueDate = releaseBO.DueDate;
+            var convertedRelease = new Release
+            {
+                Version = releaseBO.Version,
+                Description = releaseBO.Description,
+                DueDate = releaseBO.DueDate
+            };
             foreach (var releaseunitBO in releaseBO.UnitList)
             {
-                var convertedReleaseUnit = new ReleaseUnit();
-                convertedReleaseUnit.Name = releaseunitBO.Name;
+                var convertedReleaseUnit = new ReleaseUnit { Name = releaseunitBO.Name };
                 foreach (var stakeholderBO in releaseunitBO.StakeholderList)
                 {
                     convertedReleaseUnit.StakeholderList.Add(Convert(stakeholderBO));
@@ -106,13 +101,15 @@ namespace sheego.Framework.Presentation.Web.Util
 
         public Deployment Convert(IDeployment deploymentBO)
         {
-            var convertedDeployment = new Deployment();
-            convertedDeployment.Name = deploymentBO.Name;
-            convertedDeployment.Description = deploymentBO.Description;
-            convertedDeployment.DueDate = deploymentBO.DueDate;
-            convertedDeployment.ReleaseVersion = deploymentBO.ReleaseVersion;
-            convertedDeployment.Environment = deploymentBO.Environment;
-            convertedDeployment.Status = (WEB.DeploymentStatus)deploymentBO.Status;
+            var convertedDeployment = new Deployment
+            {
+                Name = deploymentBO.Name,
+                Description = deploymentBO.Description,
+                DueDate = deploymentBO.DueDate,
+                ReleaseVersion = deploymentBO.ReleaseVersion,
+                Environment = deploymentBO.Environment,
+                Status = (WEB.DeploymentStatus)deploymentBO.Status
+            };
             return convertedDeployment;
         }
 
@@ -134,11 +131,13 @@ namespace sheego.Framework.Presentation.Web.Util
 
         public DeploymentStep Convert(IDeploymentStep deploymentStepBO)
         {
-            var convertedDeploymentStep = new DeploymentStep();
-            convertedDeploymentStep.Id = deploymentStepBO.Id;
-            convertedDeploymentStep.Description = deploymentStepBO.Description;
-            convertedDeploymentStep.StepState = (WEB.DeploymentStepState)deploymentStepBO.StepState;
-            convertedDeploymentStep.Comment = deploymentStepBO.Comment;
+            var convertedDeploymentStep = new DeploymentStep
+            {
+                Id = deploymentStepBO.Id,
+                Description = deploymentStepBO.Description,
+                StepState = (WEB.DeploymentStepState)deploymentStepBO.StepState,
+                Comment = deploymentStepBO.Comment
+            };
             return convertedDeploymentStep;
         }
 
@@ -197,16 +196,18 @@ namespace sheego.Framework.Presentation.Web.Util
             using (var convertedStakeholder = DomainLocator.GetStakeholder())
             {
                 convertedStakeholder.Object.Name = stakeholder.Name;
-                convertedStakeholder.Object.IsParticipating = stakeholder.isParticipating;
+                convertedStakeholder.Object.IsParticipating = stakeholder.IsParticipating;
                 return convertedStakeholder.Object;
             }
         }
 
         public Stakeholder Convert(IStakeholder stakeholderBO)
         {
-            var convertedStakeholder = new Stakeholder();
-            convertedStakeholder.Name = stakeholderBO.Name;
-            convertedStakeholder.isParticipating = stakeholderBO.IsParticipating;
+            var convertedStakeholder = new Stakeholder
+            {
+                Name = stakeholderBO.Name,
+                IsParticipating = stakeholderBO.IsParticipating
+            };
             return convertedStakeholder;
         }
 
@@ -226,9 +227,11 @@ namespace sheego.Framework.Presentation.Web.Util
 
         public ReleaseElement Convert(IReleaseElement releaseElementBO)
         {
-            var convertedReleaseElement = new ReleaseElement();
-            convertedReleaseElement.SelectListPrefix = releaseElementBO.SelectListPrefix;
-            convertedReleaseElement.Content = releaseElementBO.Content;
+            var convertedReleaseElement = new ReleaseElement
+            {
+                SelectListPrefix = releaseElementBO.SelectListPrefix,
+                Content = releaseElementBO.Content
+            };
             return convertedReleaseElement;
         }
 
@@ -248,9 +251,11 @@ namespace sheego.Framework.Presentation.Web.Util
 
         public VerificationMessage Convert(IVerificationMessage verificationMessageBO)
         {
-            var verificationMessage = new VerificationMessage();
-            verificationMessage.MessageContent = verificationMessageBO.MessageContent;
-            verificationMessage.Status =  (WEB.VerificationStatus)verificationMessageBO.Status;
+            var verificationMessage = new VerificationMessage
+            {
+                MessageContent = verificationMessageBO.MessageContent,
+                Status = (WEB.VerificationStatus)verificationMessageBO.Status
+            };
             return verificationMessage;
         }
 

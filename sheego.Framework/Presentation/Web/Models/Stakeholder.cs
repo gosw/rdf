@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
 
-        public bool isParticipating { get; set; }
+        public bool IsParticipating { get; set; }
     }
 }

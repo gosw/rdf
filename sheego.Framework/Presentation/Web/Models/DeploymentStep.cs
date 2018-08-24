@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace sheego.Framework.Presentation.Web.Models
+﻿namespace sheego.Framework.Presentation.Web.Models
 {
     public class DeploymentStep
     {

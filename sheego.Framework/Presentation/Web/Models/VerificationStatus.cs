@@ -2,7 +2,7 @@
 {
     public enum VerificationStatus
     {
-        OK,
+        Ok,
         Warning,
         Failed
     }

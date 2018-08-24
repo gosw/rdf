@@ -44,7 +44,7 @@
             <div class="col-md-8">
                 <select class="col-md-4" id="ReleaseElementOption" name="ReleaseElementOption">
                     <option selected="selected">Select release unit and team</option>
-                    @foreach (var item in Model.releaseElementOptions.Items)
+                    @foreach (var item in Model.ReleaseElementOptions.Items)
                     {
                         <option>@item.ToString()</option>
                     }
@@ -56,7 +56,7 @@
         <p>
             <div class="form-group row">
                 <div class="col-md-8">
-                    <input id="newReleaseElement" name="newReleaseElement" placeholder="Enter release element" type="text" value="">
+                    <input id="NewReleaseElement" name="NewReleaseElement" placeholder="Enter release element" type="text" value="">
                 </div>
                 <div class="col-md-2">
                     <button name="action" value="addreleaseelement" class="btn btn-primary">Add release element</button>
@@ -83,9 +83,9 @@
                         @Html.HiddenFor(model => model.Release.UnitList[j].Name)
                         @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
                         {
-                            <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                            <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].IsParticipating)</td>
                             @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
-                            @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)
+                            @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].IsParticipating)
                         }
                     </tr>
                     for (var l = 0; l < Model.Release.UnitList[j].ReleaseElementsList.Count; l++)

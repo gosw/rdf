@@ -6,7 +6,7 @@ namespace sheego.Framework.Presentation.Web.Models
     {
         public Release Release { get; set; }
 
-        public string newReleaseUnit { set; get; }
+        public string NewReleaseUnit { set; get; }
 
         public List<Stakeholder> StakeholdersHeadline { set; get; }
     }

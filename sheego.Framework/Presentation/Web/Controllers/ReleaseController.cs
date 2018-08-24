@@ -70,13 +70,13 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 case "addreleaseunit":
                     var releaseUnit = new ReleaseUnit();
-                    releaseUnit.Name = releaseCombined.newReleaseUnit;
+                    releaseUnit.Name = releaseCombined.NewReleaseUnit;
                     for (var i = 0; i < (releaseCombined.StakeholdersHeadline != null ? releaseCombined.StakeholdersHeadline.Count : 0); i++)
                     {
                         releaseUnit.StakeholderList.Add(new Stakeholder()
                         {
                             Name = releaseCombined.StakeholdersHeadline[i].Name,
-                            isParticipating = false
+                            IsParticipating = false
                         });
                     }
                     releaseCombined.Release.UnitList.Add(releaseUnit);
@@ -155,7 +155,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 case "addreleaseunit":
                     var releaseUnit = new ReleaseUnit();
-                    releaseUnit.Name = releaseCombined.newReleaseUnit;
+                    releaseUnit.Name = releaseCombined.NewReleaseUnit;
                     using (var service = DomainLocator.GetRepositoryService())
                     {
                         var configData = service.Object.ReadConfiguration("MainConfiguration"); //Needed only to display all available stakeholders
@@ -167,7 +167,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
                             releaseUnit.StakeholderList.Add(new Stakeholder()
                             {
                                 Name = releaseCombined.StakeholdersHeadline[i].Name,
-                                isParticipating = false
+                                IsParticipating = false
                             });
                         }
                         releaseCombined.Release.UnitList.Add(releaseUnit);
@@ -300,12 +300,12 @@ namespace sheego.Framework.Presentation.Web.Controllers
             {
                 foreach (var stakeholder in releaseUnit.StakeholderList)
                 {
-                    if (stakeholder.isParticipating == false)
+                    if (stakeholder.IsParticipating == false)
                         continue;
                     participatingStakeholdersUnits.Add(string.Format("{0}~{1}~", releaseUnit.Name, stakeholder.Name));
                 }
             }
-            releasePrepared.releaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
+            releasePrepared.ReleaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
 
             if (releasePrepared == null)
             {
@@ -325,10 +325,11 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 case "addreleaseelement":
                     //ToDo: Add list of Release Elements in Domain.Release and add Release Elements here
                     var releaseElement = new ReleaseElement();
-                    releaseElement.SelectListPrefix = releasePrepared.releaseElementOption;
-                    releaseElement.Content = releasePrepared.newReleaseElement;
+                    releaseElement.SelectListPrefix = releasePrepared.ReleaseElementOption;
+                    releaseElement.Content = releasePrepared.NewReleaseElement;
+                    //ToDo: catch NurrReferenceExeption
                     releasePrepared.Release.UnitList.FirstOrDefault(
-                        x => x.Name == releasePrepared.releaseElementOption.Split('~')[0]).ReleaseElementsList.Add(releaseElement);
+                        x => x.Name == releasePrepared.ReleaseElementOption.Split('~')[0]).ReleaseElementsList.Add(releaseElement);
 
                     //Create SelectList anew
                     List<string> participatingStakeholdersUnits = new List<string>();
@@ -336,12 +337,12 @@ namespace sheego.Framework.Presentation.Web.Controllers
                     {
                         foreach (var stakeholder in releaseUnit.StakeholderList)
                         {
-                            if (stakeholder.isParticipating == false)
+                            if (stakeholder.IsParticipating == false)
                                 continue;
                             participatingStakeholdersUnits.Add(string.Format("{0}~{1}~", releaseUnit.Name, stakeholder.Name));
                         }
                     }
-                    releasePrepared.releaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
+                    releasePrepared.ReleaseElementOptions = new SelectList(participatingStakeholdersUnits, "Select release unit and team");
                     break;
 
                 case "save":

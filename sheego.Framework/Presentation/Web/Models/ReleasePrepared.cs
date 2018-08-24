@@ -7,11 +7,11 @@ namespace sheego.Framework.Presentation.Web.Models
     {
         public Release Release { get; set; }
 
-        public string releaseElementOption { set; get; }
+        public string ReleaseElementOption { set; get; }
 
-        public SelectList releaseElementOptions { set; get; }
+        public SelectList ReleaseElementOptions { set; get; }
 
-        public string newReleaseElement { set; get; }
+        public string NewReleaseElement { set; get; }
         //public HttpPostedFileBase newReleaseElement { set; get; }
         public List<Stakeholder> StakeholdersHeadline { set; get; }
     }

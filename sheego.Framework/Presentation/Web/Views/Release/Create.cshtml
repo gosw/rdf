@@ -40,7 +40,7 @@
 
     <div class="form-group row">
         <div class="col-md-4">
-            <input id="newReleaseUnit" name="newReleaseUnit" placeholder="Enter release unit" type="text" value="">
+            <input id="NewReleaseUnit" name="NewReleaseUnit" placeholder="Enter release unit" type="text" value="">
         </div>
         <div class="col-md-2">
             <button name="action" value="addreleaseunit" class="btn btn-primary">Add release unit</button>
@@ -64,7 +64,7 @@
                 @Html.HiddenFor(model => model.Release.UnitList[j].Name)
                 @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
                 {
-                    <td style="text-align:center">@Html.CheckBoxFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                    <td style="text-align:center">@Html.CheckBoxFor(model => model.Release.UnitList[j].StakeholderList[k].IsParticipating)</td>
                     @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
                 }
             </tr>

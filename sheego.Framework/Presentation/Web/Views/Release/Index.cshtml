@@ -46,7 +46,7 @@
                         {
                             foreach(var stakeholder in releaseUnit.StakeholderList)
                             {
-                                if(stakeholder.isParticipating && !participatingStakeholders.Contains(stakeholder.Name))
+                                if(stakeholder.IsParticipating && !participatingStakeholders.Contains(stakeholder.Name))
                                 {
                                     participatingStakeholders = participatingStakeholders + " " + stakeholder.Name;
                                 }

@@ -57,7 +57,7 @@
                 @Html.HiddenFor(model => model.Release.UnitList[j].Name)
                 @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
                 {
-                    <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].isParticipating)</td>
+                    <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].IsParticipating)</td>
                     @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
                 }
             </tr>
