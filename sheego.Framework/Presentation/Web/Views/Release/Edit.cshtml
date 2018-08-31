@@ -30,8 +30,9 @@
     <!-- Due Date-->
     <div class="form-group row">
         @Html.LabelFor(model => model.Release.DueDate, new { @class = "col-md-2 control-label", @for = "date" })
-        <div class="col-md-4">
-            @Html.EditorFor(model => model.Release.DueDate) <!-- ToDo: Change text to something generic -->
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.Release.DueDate, new { placeholder = "Enter release due date", @class = "form-control input-md" })
+            @Html.ValidationMessageFor(model => model.Release.DueDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -53,10 +54,9 @@
     {
         <tr>
             <th>Release Unit List</th>
-            @for (var i = 0; i < Model.StakeholdersHeadline.Count; i++)
+            @foreach (var stakeholder in Model.StakeholdersHeadline)
             {
-                <th style="text-align:center">@Model.StakeholdersHeadline[i].Name</th>
-                    @*@Html.HiddenFor(model => model.StakeholdersHeadline[i].Name)*@
+                <th style="text-align:center">@stakeholder.Name</th>
             }
         </tr>
         for (var j = 0; j < Model.Release.UnitList.Count; j++)
@@ -101,9 +101,9 @@
         <div class="col-md-2">
             <button name="action" value="save" class="btn btn-primary">Save</button>
         </div>
-        @*<div class="col-md-2 col-md-offset-2">
-            <button name="action" value="confirmrelease" class="btn btn-primary">Confirm release</button>
-        </div>*@
+        <div class="col-md-2 col-md-offset-2">
+            <button name="action" value="createdeployment" class="btn btn-primary">Create deployment</button>
+        </div>
     </div>
 }
 

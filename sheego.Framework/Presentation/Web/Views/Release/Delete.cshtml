@@ -10,7 +10,7 @@
 {
     <h4>@ViewBag.Message</h4>
 
-    <!-- Text input-->
+    <!-- Text -->
     <div class="form-group row">
         @Html.LabelFor(model => model.Release.Version, new { @class = "col-md-2 control-label", @for = "textinput" })
         <div class="col-md-4">
@@ -31,7 +31,7 @@
     <div class="form-group row">
         @Html.LabelFor(model => model.Release.DueDate, new { @class = "col-md-2 control-label", @for = "date" })
         <div class="col-md-4">
-            @Html.DisplayFor(model => model.Release.DueDate) <!-- ToDo: Change text to something generic -->
+            @Html.DisplayFor(model => model.Release.DueDate)
         </div>
     </div>
 
@@ -44,33 +44,32 @@
     {
         <tr>
             <th>Release Unit List</th>
-            @for (var i = 0; i < Model.StakeholdersHeadline.Count; i++)
+            @foreach (var stakeholder in Model.StakeholdersHeadline)
             {
-                <th style="text-align:center">@Model.StakeholdersHeadline[i].Name</th>
-                @*@Html.HiddenFor(model => model.StakeholdersHeadline[i].Name)*@
+                <th style="text-align:center">@stakeholder.Name</th>
             }
         </tr>
-        for (var j = 0; j < Model.Release.UnitList.Count; j++)
+        foreach (var unit in Model.Release.UnitList) //(var j = 0; j < Model.Release.UnitList.Count; j++)
         {
             <tr>
-                <td>@Html.DisplayFor(model => model.Release.UnitList[j].Name)</td>
-                @Html.HiddenFor(model => model.Release.UnitList[j].Name)
-                @for (var k = 0; k < Model.Release.UnitList[j].StakeholderList.Count; k++)
+                <td>@Html.DisplayFor(model => @unit.Name)</td>
+                @Html.HiddenFor(model => @unit.Name)
+                @foreach (var stakeholder in @unit.StakeholderList)
                 {
-                    <td style="text-align:center">@Html.DisplayFor(model => model.Release.UnitList[j].StakeholderList[k].IsParticipating)</td>
-                    @Html.HiddenFor(model => model.Release.UnitList[j].StakeholderList[k].Name)
+                    <td style="text-align:center">@Html.DisplayFor(model => @stakeholder.IsParticipating)</td>
+                    @Html.HiddenFor(model => @stakeholder.Name)
                 }
             </tr>
-            for (var l = 0; l < Model.Release.UnitList[j].ReleaseElementsList.Count; l++)
+            foreach (var element in @unit.ReleaseElementsList)
             {
                 <tr>
-                    <td colspan="@(Model.Release.UnitList[j].StakeholderList.Count + 1)" style="text-align:start">
+                    <td colspan="@(unit.StakeholderList.Count + 1)" style="text-align:start">
                         <div id="releaseElements">
                             <ul>
-                                <a href="@Model.Release.UnitList[j].ReleaseElementsList[l].Content">
-                                    @Html.HiddenFor(model => model.Release.UnitList[j].ReleaseElementsList[l].Content)
-                                    <li>@Model.Release.UnitList[j].ReleaseElementsList[l].SelectListPrefix</li>
-                                    @Html.HiddenFor(model => model.Release.UnitList[j].ReleaseElementsList[l].SelectListPrefix)
+                                <a href="@element.Content">
+                                    @Html.HiddenFor(model => @element.Content)
+                                    <li>@element.SelectListPrefix</li>
+                                    @Html.HiddenFor(model => @element.SelectListPrefix)
                                 </a>
                             </ul>
                         </div>
