@@ -6,7 +6,6 @@ using sheego.Framework.Presentation.Web.Util;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System;
 
 namespace sheego.Framework.Presentation.Web.Controllers
 {
@@ -17,15 +16,12 @@ namespace sheego.Framework.Presentation.Web.Controllers
         public ActionResult Index()
         {
             RunInitializeCheck();
-            List<Deployment> indexDeploymentList = new List<Deployment>();
+            var indexDeploymentList = new List<Deployment>();
             using (var service = DomainLocator.GetRepositoryService())
             {
                 var deployments = service.Object.ReadDeployments();
-                foreach (var deploymentBO in deployments)
-                {
-                    var converter = new Converter();
-                    indexDeploymentList.Add(converter.Convert(deploymentBO));
-                }
+                indexDeploymentList.AddRange(from deploymentBO in deployments let converter = new Converter()
+                                             select converter.Convert(deploymentBO));
             }
             return View(indexDeploymentList);
         }
@@ -44,9 +40,7 @@ namespace sheego.Framework.Presentation.Web.Controllers
         //[FrameworkAuthorization]
         public ActionResult Create(string name)
         {
-            var deployment = new Deployment();
-            deployment.Name = name;
-
+            var deployment = new Deployment { Name = name };
             using (var service = DomainLocator.GetRepositoryService())
             {
                 deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
@@ -129,21 +123,14 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 var deployments = service.Object.ReadDeployments();
                 foreach (var deploymentBO in deployments)
                 {
-                    if (deploymentBO.Name == name)
-                    {
-                        var converter = new Converter();
-                        deployment = converter.Convert(deploymentBO);
-                        deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
-                        var configData = service.Object.ReadConfiguration("MainConfiguration");
-                        deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
-                        break;
-                    }
+                    if (deploymentBO.Name != name) continue;
+                    var converter = new Converter();
+                    deployment = converter.Convert(deploymentBO);
+                    deployment.ReleaseVersions = new SelectList(service.Object.ReadReleaseVersions());
+                    var configData = service.Object.ReadConfiguration("MainConfiguration");
+                    deployment.Environments = new SelectList(converter.Convert(configData).DeployEnvironments);
+                    break;
                 }
-            }
-
-            if (deployment == null)
-            {
-                return HttpNotFound();
             }
             return View(deployment);
         }
@@ -204,57 +191,6 @@ namespace sheego.Framework.Presentation.Web.Controllers
             }
         }
 
-        // GET: Deployments/Delete
-        //[FrameworkAuthorization]
-        public ActionResult Delete(string name)
-        {
-            ViewBag.Message = "You are about to delete:";
-            if (name == null)
-            {
-                ViewBag.Message = "Invalid name. Nothing to display.";
-                return View();
-            }
-
-            Deployment deployment = null;
-            using (var service = DomainLocator.GetRepositoryService())
-            {
-                var deployments = service.Object.ReadDeployments();
-                foreach (var deploymentBO in deployments)
-                {
-                    if (deploymentBO.Name == name)
-                    {
-                        var converter = new Converter();
-                        deployment = new Deployment();
-                        deployment = converter.Convert(deploymentBO);
-                    }
-                }
-            }
-
-            if (deployment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(deployment);
-        }
-
-        // POST: Deployments/Delete
-        [HttpPost]
-        //[FrameworkAuthorization]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Delete(Deployment deployment, string action)
-        {
-            if (action == "delete")
-            {
-                using (var service = DomainLocator.GetRepositoryService())
-                {
-                    var converter = new Converter();
-                    service.Object.DeleteDeployment(converter.Convert(deployment));
-                    return RedirectToAction("Index");
-                }
-            }
-            return View();
-        }
-
         // GET: Deployments/Execute
         //[FrameworkAuthorization]
         public ActionResult Execute(string name)
@@ -275,27 +211,25 @@ namespace sheego.Framework.Presentation.Web.Controllers
                 if (runDeployment.Deployment.Status == DeploymentStatus.Active)
                 {
                     var deploymentSteps = service.Object.ReadDeploymentSteps(name);
-                    if (deploymentSteps.Any() && deploymentSteps != null)
+                    var steps = deploymentSteps as BO.IDeploymentStep[] ?? deploymentSteps.ToArray();
+                    if (steps.Any())
                     {
-                        if (deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Init
-                            && deploymentSteps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
+                        if (steps.Last().StepState != Domain.Shared.DeploymentStepState.Init
+                            && steps.Last().StepState != Domain.Shared.DeploymentStepState.Active)
                         {
                             runDeployment.Deployment.Status = DeploymentStatus.Failed;
-                            foreach (var deploymentStep in deploymentSteps)
+                            foreach (var deploymentStep in steps)
                             {
                                 if (deploymentStep.StepState != Domain.Shared.DeploymentStepState.Failed)
                                     runDeployment.Deployment.Status = DeploymentStatus.Successful;
-
                             }
                             service.Object.CreateDeployment(converter.Convert(runDeployment.Deployment));
                             return RedirectToAction("Index");
                         }
-                        else
+
+                        foreach (var deploymentStep in steps)
                         {
-                            foreach (var deploymentStep in deploymentSteps)
-                            {
-                                runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
-                            }
+                            runDeployment.DeploymentSteps.Add(converter.Convert(deploymentStep));
                         }
                     }
                     else
@@ -308,14 +242,8 @@ namespace sheego.Framework.Presentation.Web.Controllers
                                 StepState = DeploymentStepState.Active
                             }
                         );
-                        
                     }
                 }
-            }
-
-            if (runDeployment == null)
-            {
-                return HttpNotFound();
             }
             return View(runDeployment);
         }
@@ -327,18 +255,18 @@ namespace sheego.Framework.Presentation.Web.Controllers
             if (name == null)
             {
                 ViewBag.Message = "Invalid name. Nothing to display.";
-                return View();
+                //return View(); Redirect, because RunExecute View does not exist
+                return RedirectToAction("Execute");
             }
 
             //ToDo: Check if deployment is verified but allow to execute after additional confirmation
             
-            var runDeployment = new RunDeployment();
-            var converter = new Converter();
             using (var service = DomainLocator.GetRepositoryService())
             {
                 //Get deployment and its steps.
+                var converter = new Converter();
                 var deploymentBO = service.Object.ReadDeployment(name);
-                runDeployment.Deployment = converter.Convert(deploymentBO);
+                var runDeployment = new RunDeployment { Deployment = converter.Convert(deploymentBO) };
                 var deploymentSteps = service.Object.ReadDeploymentSteps(name);
                 
                 switch (stepAction)
@@ -378,7 +306,52 @@ namespace sheego.Framework.Presentation.Web.Controllers
                         break;
                 }
             }
-            return RedirectToAction("Execute", new { name = name });
+            return RedirectToAction("Execute", new { name });
+        }
+
+        // GET: Deployments/Delete
+        //[FrameworkAuthorization]
+        public ActionResult Delete(string name)
+        {
+            ViewBag.Message = "You are about to delete:";
+            if (name == null)
+            {
+                ViewBag.Message = "Invalid name. Nothing to display.";
+                return View();
+            }
+
+            Deployment deployment = null;
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                var deployments = service.Object.ReadDeployments();
+                foreach (var deploymentBO in deployments)
+                {
+                    if (deploymentBO.Name != name) continue;
+                    var converter = new Converter();
+                    deployment = converter.Convert(deploymentBO);
+                }
+            }
+
+            if (deployment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(deployment);
+        }
+
+        // POST: Deployments/Delete
+        [HttpPost]
+        //[FrameworkAuthorization]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(Deployment deployment, string action)
+        {
+            if (action != "delete") return View();
+            using (var service = DomainLocator.GetRepositoryService())
+            {
+                var converter = new Converter();
+                service.Object.DeleteDeployment(converter.Convert(deployment));
+                return RedirectToAction("Index");
+            }
         }
 
         public ActionResult Unauthorized()
